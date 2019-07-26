@@ -1,0 +1,14 @@
+
+
+there are some simple data sets in the folder datasets.
+
+python folder is for RL model. After R-tree building, we invoke python program to tune. If possible, we can also use
+Java to implement the model.
+
+TODO add python code to generate synthetic data set with different dimension. 7.27
+
+TODO add codes from other project ZRtree HRtree   7.27
+
+TODO implement model  7.29~7.31
+
+TODO implement other rtrees
