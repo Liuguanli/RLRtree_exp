@@ -1,6 +1,5 @@
-package com.leo.recorder;
+package com.unimelb.cis.rlrtree;
 
-import com.leo.exp.Constants;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,7 +12,7 @@ public class FileRecoder {
         if (isWrite) {
             try (FileWriter writer = new FileWriter(fileName, true)) {
                 writer.write(content);
-                writer.write("\r\n");
+//                writer.write("\r\n");
             } catch (IOException e) {
                 e.printStackTrace();
             }
