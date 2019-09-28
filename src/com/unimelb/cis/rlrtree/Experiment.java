@@ -5,8 +5,6 @@ import com.unimelb.cis.structures.IRtree;
 import java.io.File;
 import java.util.List;
 
-import static com.unimelb.cis.rlrtree.ExpParam.drawFigures;
-
 
 public class Experiment {
 
@@ -33,7 +31,6 @@ public class Experiment {
 
             @Override
             public void onError() {
-                
             }
         });
     }
@@ -47,10 +44,11 @@ public class Experiment {
                 .buildPagesize(param.pagesizeBeforetuning)
                 .build();
 
-        return executer.buildRtree(new RtreeFinishCallback() {
+        return executer.buildRLRtree(new RtreeFinishCallback() {
             @Override
             public void onFinish(IRtree rtree) {
                 System.err.println("Rtree build Finish");
+                query(rtree, param);
                 System.err.println("Rtree query Finish");
                 executeRLAlgorithmsByPython(rtree.getLevel(), param);
             }
@@ -70,14 +68,14 @@ public class Experiment {
                 .buildDim(param.dim)
                 .buildLevel(level)
                 .buildPagesize(param.pagesizeAftertuning)
-                .buildAlgorithm(param.algorithm)
+                .buildRLAlgorithm(param.rlAlgorithm)
                 .buildType(param.curve)
                 .build();
         executer.executePythonCommand(executer.getRLCommand(), new Callback() {
             @Override
             public void onFinish() {
                 System.err.println("RL Finish");
-                query(executer.buildNewRtree(), param);
+                query(executer.buildNewRtree(), param, true);
             }
 
             @Override
@@ -88,10 +86,14 @@ public class Experiment {
     }
 
     public void query(IRtree rtree, ExpParam param) {
+        query(rtree, param, false);
+    }
+
+    public void query(IRtree rtree, ExpParam param, boolean buildIsAfterRL) {
         ExpExecuter executer = new ExpExecuter.QueryBuilder().buildIRtree(rtree).buildDim(rtree.getDim())
-                .buildFileName(param.getOutputFile()).buildIteration(param.times)
-                .buildAlgorithm(param.algorithm)
-                .buildIsWarmUp(true)
+                .buildIsAfterRL(buildIsAfterRL).buildFileName(param.getOutputFile()).buildIteration(param.times)
+                .buildRLAlgorithm(param.rlAlgorithm)
+                .buildQueryType(ExpParam.QUERUY_TYPE_WINDOW)
                 .buildWindows(param.side).build();
         executer.executeWindowQuery(new Callback() {
             @Override
@@ -107,8 +109,9 @@ public class Experiment {
     }
 
     public void drawFigures() {
-        ExpExecuter executer = new ExpExecuter.PythonCommandBuilder().buildPythonFile(drawFigures).build();
-        executer.executePythonCommand(executer.getDrawFigureCommand(), new Callback() {
+        String command = "python /Users/guanli/Documents/codes/DL_Rtree/structure/draw_figures.py";
+        ExpExecuter executer = new ExpExecuter.PythonCommandBuilder().build();
+        executer.executePythonCommand(command, new Callback() {
             @Override
             public void onFinish() {
                 System.out.println("draw finish!");
@@ -121,21 +124,13 @@ public class Experiment {
         });
     }
 
-    public Experiment exp(List<ExpParam> params) {
-        for (ExpParam param : params) {
-            generateDataSet(param);
-            break;
-        }
-        return this;
-    }
-
-    // todo generate 100 rectangles with different shape. and write to file, them
-    public static void main(String[] args) {
+    public void exp() {
         List<ExpParam> params = new ExpParamBuilder()
-                .buildAlgorithm("null", "DQN", "DDPG", "random")
+                .buildAlgorithm("DQN", "random")
                 .buildCurve("Z", "H")
-                .buildDataSetSize(1000, 20000, 40000, 80000, 160000)
-                .buildDim(2, 3)
+                .buildDataSetSize(160000, 20000, 40000, 80000, 10000)
+//                .buildDim(2, 3)
+                .buildDim(2)
                 .buildDistribution("uniform", "normal", "skewed")
                 .buildSides(0.2f, 0.1f, 0.05f, 0.025f, 0.0125f)
                 .buildSkewness(1, 3, 5, 7, 9)
@@ -143,10 +138,17 @@ public class Experiment {
                 .buildPageSizeBeforeTuning(100)
                 .buildPageSizeAfterTuning(108)
                 .buildExpParams();
+        for (ExpParam param : params) {
+            generateDataSet(param);
+            break;
+        }
+    }
 
-        new Experiment().exp(params).drawFigures();
-//        new Experiment().drawFigures();
-//        new Experiment().exp(params);
+    // todo generate 100 rectangles with different shape. and write to file, them
+    public static void main(String[] args) {
+
+        new Experiment().exp();
+
 //        String distribution = "normal";
 //        int size = 1000000;
 //        int skewness = 1;
@@ -157,7 +159,7 @@ public class Experiment {
 //        String inputFile = "/Users/guanli/Documents/datasets/RLRtree/raw/normal_2000000_.csv";
 //        String outputFile = "/Users/guanli/Documents/datasets/RLRtree/trees/Z_uniform_1000000_1.csv";
 //        String outputFileRL = "/Users/guanli/Documents/datasets/RLRtree/newtrees/Z_uniform_1000000_1_random.csv";
-//        new Experiment().buildRtree(inputFile, outputFile, outputFileRL);
+//        new Experiment().buildMLRtree(inputFile, outputFile, outputFileRL);
 
 //        new Experiment().drawFigures();
 //        String outputFile = String.format(outputFileTemplate, distribution, size, skewness);
@@ -166,7 +168,7 @@ public class Experiment {
 
 //        ZRtree zRtree = new ZRtree(100);
 //        zRtree.buildRtreeAfterTuning(outputFileRL, 2, 3);
-//        zRtree.buildRtree(inputFile);
+//        zRtree.buildMLRtree(inputFile);
 //        new Experiment().query(zRtree, outputFileRL, true);
     }
 

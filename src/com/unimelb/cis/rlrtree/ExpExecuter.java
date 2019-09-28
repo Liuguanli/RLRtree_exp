@@ -2,11 +2,15 @@ package com.unimelb.cis.rlrtree;
 
 import com.unimelb.cis.geometry.Mbr;
 import com.unimelb.cis.structures.IRtree;
+import com.unimelb.cis.structures.RLRtree;
 import com.unimelb.cis.structures.hrtree.HRtree;
+import com.unimelb.cis.structures.partitionmodel.PartitionModelRtree;
+import com.unimelb.cis.structures.recursivemodel.RecursiveModelRtree;
 import com.unimelb.cis.structures.zrtree.ZRtree;
 import com.unimelb.cis.utils.ExpReturn;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
@@ -27,7 +31,7 @@ public class ExpExecuter {
     private int pagesize;
 
     private IRtree rtree;
-    private String algorithm;
+    private String rlAgorithm;
 
     private String distribution;
     private int datasetSize;
@@ -35,7 +39,14 @@ public class ExpExecuter {
 
     private boolean isAfterRL;
     private String type;
-    private boolean isWarmUp;
+
+    private String curve;
+    private int threshold;
+    private String mlAlgorithm;
+
+    private int queryType;
+    private float sideForEachMbr;
+
 
     public ExpExecuter(ExpExecuter.QueryBuilder builder) {
         this.sides = builder.sides;
@@ -43,7 +54,11 @@ public class ExpExecuter {
         this.rtree = builder.rtree;
         this.dim = builder.dim;
         this.outputFile = builder.fileName;
-        this.algorithm = builder.algorithm;
+        this.isAfterRL = builder.isAfterRL;
+        this.rlAgorithm = builder.rlAlgorithm;
+        this.mlAlgorithm = builder.mlAlgorithm;
+        this.threshold = builder.threshold;
+        this.queryType = builder.queryType;
     }
 
     public ExpExecuter(ExpExecuter.PythonCommandBuilder builder) {
@@ -53,12 +68,14 @@ public class ExpExecuter {
         this.level = builder.level;
         this.pagesize = builder.pagesize;
         this.pythonFile = builder.pythonFile;
-        this.algorithm = builder.algorithm;
+        this.rlAgorithm = builder.rlAlgorithm;
 
         this.datasetSize = builder.datasetSize;
         this.distribution = builder.distribution;
         this.skewness = builder.skewness;
         this.type = builder.type;
+        this.mlAlgorithm = builder.mlAlgorithm;
+        this.threshold = builder.threshold;
     }
 
     public ExpExecuter(ExpExecuter.RtreeBuilder builder) {
@@ -66,15 +83,18 @@ public class ExpExecuter {
         this.outputFile = builder.outputFile;
         this.pagesize = builder.pagesize;
         this.type = builder.type;
+        this.mlAlgorithm = builder.mlAlgorithm;
+        this.threshold = builder.threshold;
+        this.curve = builder.curve;
     }
 
-    public IRtree buildRtree(RtreeFinishCallback callback) {
-        IRtree rtree;
+    public RLRtree buildRLRtree(RtreeFinishCallback callback) {
+        RLRtree rtree;
         switch (type) {
-            case ZCurveRtree:
+            case ExpParam.ZCurveRtree:
                 rtree = new ZRtree(pagesize);
                 break;
-            case HCurveRtree:
+            case ExpParam.HCurveRtree:
                 rtree = new HRtree(pagesize);
                 break;
             default:
@@ -86,13 +106,36 @@ public class ExpExecuter {
         return rtree;
     }
 
-    public IRtree buildNewRtree() {
+    public IRtree buildMLRtree(RtreeFinishCallback callback) {
         IRtree rtree;
         switch (type) {
-            case ZCurveRtree:
+            case ExpParam.ZCurveRtree:
                 rtree = new ZRtree(pagesize);
                 break;
-            case HCurveRtree:
+            case ExpParam.HCurveRtree:
+                rtree = new HRtree(pagesize);
+                break;
+            case ExpParam.PartitionModelRtree:
+                rtree = new PartitionModelRtree(threshold, type, pagesize, mlAlgorithm);
+                break;
+            case ExpParam.RecursiveModelRtree:
+                rtree = new RecursiveModelRtree(threshold, type, pagesize, mlAlgorithm);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + type);
+        }
+        rtree.buildRtree(inputFile);
+        callback.onFinish(rtree);
+        return rtree;
+    }
+
+    public RLRtree buildNewRtree() {
+        RLRtree rtree;
+        switch (type) {
+            case ExpParam.ZCurveRtree:
+                rtree = new ZRtree(pagesize);
+                break;
+            case ExpParam.HCurveRtree:
                 rtree = new HRtree(pagesize);
                 break;
             default:
@@ -118,16 +161,9 @@ public class ExpExecuter {
                 .append(" -o ").append(outputFile)
                 .append(" -d ").append(dim)
                 .append(" -p ").append(pagesize)
-                .append(" -a ").append(algorithm);
+                .append(" -a ").append(rlAgorithm);
         return stringBuilder.toString();
     }
-
-    public String getDrawFigureCommand() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("python ").append(pythonFile);
-        return stringBuilder.toString();
-    }
-
 
     public String getDatasetCommand() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -164,38 +200,65 @@ public class ExpExecuter {
 
     }
 
-    public String getRecordFileName(float side) {
+    public String getRecordFileName() {
         String file = outputFile;
-        System.out.println(file);
-        String[] names = file.split(separator);
+        String[] names = file.split(File.separator);
         String name = names[names.length - 1].split("\\.")[0];
 //        DecimalFormat df = new DecimalFormat("#.0000");
         StringBuilder nameBuilder = new StringBuilder();
-        nameBuilder.append(recordRoot).append(name);
-        nameBuilder.append(algorithm);
-
-        nameBuilder.append("_").append((int) (side * side * 1000000)).append(".txt");
+        String prefix = null;
+        String tag = null;
+        switch (queryType) {
+            case QUERUY_TYPE_POINT:
+                tag = "";
+                prefix = recordRootPoint;
+                break;
+            case QUERUY_TYPE_WINDOW:
+                tag = (int) (sideForEachMbr * sideForEachMbr * 1000000) + "";
+                prefix = recordRootWindow;
+                break;
+            case QUERUY_TYPE_POINT_ML:
+                tag = mlAlgorithm;
+                prefix = recordRootPointML;
+                break;
+            case QUERUY_TYPE_WINDOW_ML:
+                tag = mlAlgorithm + "_" + (int) (sideForEachMbr * sideForEachMbr * 1000000);
+                prefix = recordRootWindowML;
+                break;
+        }
+        nameBuilder.append(prefix).append(name);
+        if (!isAfterRL) {
+            nameBuilder.append(originalRtree);
+        } else {
+            nameBuilder.append(rlAgorithm);
+        }
+        nameBuilder.append("_").append(tag).append(".txt");
 
         return nameBuilder.toString();
+    }
+
+    public void executePointQuery(Callback callback) {
+        ExpResultHelper expResultHelper = new ExpResultHelper();
+        for (int i = 0; i < iteration; i++) {
+            expResultHelper.addReturn(rtree.pointQuery(rtree.getPoints()));
+        }
+        ExpReturn expReturn = expResultHelper.getResult();
+        String name = getRecordFileName();
+        FileRecoder.write(name, expReturn.toString());
+        callback.onFinish();
     }
 
     public void executeWindowQuery(Callback callback) {
         for (int i = 0; i < sides.length; i++) {
             List<Mbr> mbrs = Mbr.getMbrs(sides[i], iteration, dim);
             ExpResultHelper expResultHelper = new ExpResultHelper();
-            // execute once before record the result
-            if (isWarmUp) {
-                for (int j = 0; j < mbrs.size(); j++) {
-                    Mbr mbr = mbrs.get(j);
-                    rtree.windowQuery(mbr);
-                }
-            }
             for (int j = 0; j < mbrs.size(); j++) {
                 Mbr mbr = mbrs.get(j);
                 expResultHelper.addReturn(rtree.windowQuery(mbr));
             }
             ExpReturn expReturn = expResultHelper.getResult();
-            String name = getRecordFileName(sides[i]);
+            sideForEachMbr = sides[i];
+            String name = getRecordFileName();
             System.out.println(name);
             FileRecoder.write(name, expReturn.toString());
         }
@@ -224,6 +287,21 @@ public class ExpExecuter {
             return this;
         }
 
+        public ExpExecuter.RtreeBuilder buildCurve(String curve) {
+            this.curve = curve;
+            return this;
+        }
+
+        public ExpExecuter.RtreeBuilder buildThreshold(int threshold) {
+            this.threshold = threshold;
+            return this;
+        }
+
+        public ExpExecuter.RtreeBuilder buildMLAlgorithm(String mlAlgorithm) {
+            this.mlAlgorithm = mlAlgorithm;
+            return this;
+        }
+
         public ExpExecuter build() {
             return new ExpExecuter(this);
         }
@@ -233,6 +311,9 @@ public class ExpExecuter {
         private String inputFile;
         private String outputFile;
         private String type;
+        private String mlAlgorithm;
+        private int threshold;
+        private String curve;
 
     }
 
@@ -267,8 +348,8 @@ public class ExpExecuter {
             return this;
         }
 
-        public ExpExecuter.PythonCommandBuilder buildAlgorithm(String algorithm) {
-            this.algorithm = algorithm;
+        public ExpExecuter.PythonCommandBuilder buildRLAlgorithm(String rlAlgorithm) {
+            this.rlAlgorithm = rlAlgorithm;
             return this;
         }
 
@@ -292,6 +373,16 @@ public class ExpExecuter {
             return this;
         }
 
+        public ExpExecuter.PythonCommandBuilder buildThreshold(int threshold) {
+            this.threshold = threshold;
+            return this;
+        }
+
+        public ExpExecuter.PythonCommandBuilder buildMLAlgorithm(String mlAlgorithm) {
+            this.mlAlgorithm = mlAlgorithm;
+            return this;
+        }
+
         public ExpExecuter build() {
             return new ExpExecuter(this);
         }
@@ -302,13 +393,15 @@ public class ExpExecuter {
         private int dim;
         private int level;
         private int pagesize;
-        private String algorithm;
+        private String rlAlgorithm;
 
         private String distribution;
         private int datasetSize;
         private int skewness;
 
         private String type;
+        private String mlAlgorithm;
+        private int threshold;
 
     }
 
@@ -324,8 +417,8 @@ public class ExpExecuter {
             return this;
         }
 
-        public ExpExecuter.QueryBuilder buildAlgorithm(String algorithm) {
-            this.algorithm = algorithm;
+        public ExpExecuter.QueryBuilder buildRLAlgorithm(String rlAlgorithm) {
+            this.rlAlgorithm = rlAlgorithm;
             return this;
         }
 
@@ -344,8 +437,23 @@ public class ExpExecuter {
             return this;
         }
 
-        public ExpExecuter.QueryBuilder buildIsWarmUp(boolean isWarmUp) {
-            this.isWarmUp = isWarmUp;
+        public ExpExecuter.QueryBuilder buildThreshold(int threshold) {
+            this.threshold = threshold;
+            return this;
+        }
+
+        public ExpExecuter.QueryBuilder buildMLAlgorithm(String mlAlgorithm) {
+            this.mlAlgorithm = mlAlgorithm;
+            return this;
+        }
+
+        public ExpExecuter.QueryBuilder buildIsAfterRL(boolean isAfterRL) {
+            this.isAfterRL = isAfterRL;
+            return this;
+        }
+
+        public ExpExecuter.QueryBuilder buildQueryType(int queryType) {
+            this.queryType = queryType;
             return this;
         }
 
@@ -358,7 +466,10 @@ public class ExpExecuter {
         private IRtree rtree;
         private int dim;
         private String fileName;
-        private String algorithm;
-        private boolean isWarmUp;
+        private String rlAlgorithm;
+        private String mlAlgorithm;
+        private boolean isAfterRL;
+        private int threshold;
+        private int queryType;
     }
 }

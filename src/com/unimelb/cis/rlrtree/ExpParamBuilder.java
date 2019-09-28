@@ -7,14 +7,17 @@ public class ExpParamBuilder {
 
     int pagesizeBeforetuning = 100;
     int pagesizeAftertuning = 104;
-    String[] distributions;
-    int[] sizes;
-    int[] skewnesses;
-    String[] algorithms;
-    int time;
-    int[] dims;
-    String[] curves;
-    float[] sides;
+    String[] distributions = new String[]{"uniform"};
+    int[] sizes = new int[]{10000};
+    int[] skewnesses = new int[]{1};
+    String[] rlAlgorithms = new String[]{"QDN"};
+    int time = 100;
+    int[] dims = new int[]{2};
+    String[] curves = new String[]{"H"};
+    float[] sides = new float[]{0.1f};
+    int[] thresholds = new int[]{10000};
+    String[] mlAlgorithms = new String[]{"MultilayerPerceptron"};
+    String[] types = new String[]{"partition"};
 
     public ExpParamBuilder buildCurve(String... name) {
         this.curves = name;
@@ -52,7 +55,7 @@ public class ExpParamBuilder {
     }
 
     public ExpParamBuilder buildAlgorithm(String... algorithm) {
-        this.algorithms = algorithm;
+        this.rlAlgorithms = algorithm;
         return this;
     }
 
@@ -66,11 +69,26 @@ public class ExpParamBuilder {
         return this;
     }
 
+    public ExpParamBuilder buildMLAlgorithm(String... mlAlgorithms) {
+        this.mlAlgorithms = mlAlgorithms;
+        return this;
+    }
+
+    public ExpParamBuilder buildTypes(String... types) {
+        this.types = types;
+        return this;
+    }
+
+    public ExpParamBuilder buildThreshold(int... thresholds) {
+        this.thresholds = thresholds;
+        return this;
+    }
+
 
     /**
      * windows
      * curves
-     * algorithms
+     * rlAlgorithms
      * dims
      * skewness
      * distributions
@@ -78,29 +96,40 @@ public class ExpParamBuilder {
      */
     public List<ExpParam> buildExpParams() {
         List<ExpParam> expParams = new ArrayList();
+
+
         for (int i = 0; i < curves.length; i++) {
             for (int j = 0; j < distributions.length; j++) {
                 for (int k = 0; k < sizes.length; k++) {
                     for (int l = 0; l < dims.length; l++) {
-                        for (int m = 0; m < algorithms.length; m++) {
+                        for (int m = 0; m < rlAlgorithms.length; m++) {
                             for (int n = 0; n < sides.length; n++) {
                                 for (int o = 0; o < skewnesses.length; o++) {
-                                    ExpParam expParam = new ExpParam();
-                                    expParam.pagesizeBeforetuning = pagesizeBeforetuning;
-                                    expParam.pagesizeAftertuning = pagesizeAftertuning;
-                                    expParam.curve = curves[i];
-                                    expParam.distribution = distributions[j];
-                                    expParam.size = sizes[k];
-                                    expParam.dim = dims[l];
-                                    expParam.algorithm = algorithms[m];
-                                    expParam.side = sides[n];
-                                    if (distributions[j].equals("skewed")) {
-                                        expParam.skewness = skewnesses[o];
-                                        expParams.add(expParam);
-                                    } else {
-                                        expParam.skewness = 1;
-                                        expParams.add(expParam);
-                                        break;
+                                    for (int p = 0; p < mlAlgorithms.length; p++) {
+                                        for (int q = 0; q < thresholds.length; q++) {
+                                            for (int r = 0; r < types.length; r++) {
+                                                ExpParam expParam = new ExpParam();
+                                                expParam.pagesizeBeforetuning = pagesizeBeforetuning;
+                                                expParam.pagesizeAftertuning = pagesizeAftertuning;
+                                                expParam.curve = curves[i];
+                                                expParam.distribution = distributions[j];
+                                                expParam.size = sizes[k];
+                                                expParam.dim = dims[l];
+                                                expParam.rlAlgorithm = rlAlgorithms[m];
+                                                expParam.side = sides[n];
+                                                expParam.mlAlgorithm = mlAlgorithms[p];
+                                                expParam.threshold = thresholds[q];
+                                                expParam.treeType = types[r];
+                                                if (distributions[j].equals("skewed")) {
+                                                    expParam.skewness = skewnesses[o];
+                                                    expParams.add(expParam);
+                                                } else {
+                                                    expParam.skewness = 1;
+                                                    expParams.add(expParam);
+                                                    break;
+                                                }
+                                            }
+                                        }
                                     }
 
                                 }
