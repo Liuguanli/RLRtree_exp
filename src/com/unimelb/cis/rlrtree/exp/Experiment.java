@@ -1,5 +1,6 @@
-package com.unimelb.cis.rlrtree;
+package com.unimelb.cis.rlrtree.exp;
 
+import com.unimelb.cis.rlrtree.*;
 import com.unimelb.cis.structures.IRtree;
 
 import java.io.File;

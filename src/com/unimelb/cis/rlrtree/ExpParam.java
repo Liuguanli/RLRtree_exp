@@ -42,26 +42,26 @@ public class ExpParam {
     /**
      * python file
      */
-    String dataGeneratorPython = isWindows ? "C:\\Users\\Leo\\Dropbox\\shared\\RLR-trees\\codes\\python\\RLRtree\\structure\\data_generator.py" : "/Users/guanli/Dropbox/shared/RLR-trees/codes/python/RLRtree/structure/data_generator.py";
-    String pythonFile = isWindows ? "C:\\Users\\Leo\\Dropbox\\shared\\RLR-trees\\codes\\python\\RLRtree\\structure\\rtree.py" : "/Users/guanli/Dropbox/shared/RLR-trees/codes/python/RLRtree/structure/rtree.py";
-    static String drawFigures = isWindows ? "C:\\Users\\Leo\\Dropbox\\shared\\RLR-trees\\codes\\python\\RLRtree\\structure\\draw_figures.py" : "/Users/guanli/Dropbox/shared/RLR-trees/codes/python/RLRtree/structure/draw_figures.py";
+    public String dataGeneratorPython = isWindows ? "C:\\Users\\Leo\\Dropbox\\shared\\RLR-trees\\codes\\python\\RLRtree\\structure\\data_generator.py" : "/Users/guanli/Dropbox/shared/RLR-trees/codes/python/RLRtree/structure/data_generator.py";
+    public String pythonFile = isWindows ? "C:\\Users\\Leo\\Dropbox\\shared\\RLR-trees\\codes\\python\\RLRtree\\structure\\rtree.py" : "/Users/guanli/Dropbox/shared/RLR-trees/codes/python/RLRtree/structure/rtree.py";
+    public static String drawFigures = isWindows ? "C:\\Users\\Leo\\Dropbox\\shared\\RLR-trees\\codes\\python\\RLRtree\\structure\\draw_figures.py" : "/Users/guanli/Dropbox/shared/RLR-trees/codes/python/RLRtree/structure/draw_figures.py";
 
-    static String separator = isWindows ? "\\\\" : "/";
+    public static String separator = isWindows ? "\\\\" : "/";
 
-    String distribution = "uniform";
-    int size = 1000000;
-    int skewness = 1;
-    String rlAlgorithm = "random";
+    public String distribution = "uniform";
+    public int size = 1000000;
+    public int skewness = 1;
+    public String rlAlgorithm = "random";
     public int pagesizeBeforetuning = 100;
-    int pagesizeAftertuning = 104;
-    int times = 100;
-    int dim = 2;
-    float side;
+    public int pagesizeAftertuning = 104;
+    public int times = 100;
+    public int dim = 2;
+    public float side;
     public String curve = "";
-    String mlAlgorithm;
-    int threshold;
-    String treeType;
-    int queryType;
+    public String mlAlgorithm;
+    public int threshold;
+    public String treeType;
+    public int queryType;
 
     public String getInputFile() {
         return String.format(inputFileTemplate, distribution, size, skewness, dim);

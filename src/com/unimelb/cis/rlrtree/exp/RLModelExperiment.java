@@ -1,11 +1,12 @@
-package com.unimelb.cis.rlrtree;
+package com.unimelb.cis.rlrtree.exp;
 
+import com.unimelb.cis.rlrtree.*;
 import com.unimelb.cis.structures.IRtree;
 
 import java.io.File;
 import java.util.List;
 
-public class ModelExperiment {
+public class RLModelExperiment {
 
     public void generateDataSet(ExpParam param) {
         ExpExecuter executer = new ExpExecuter.PythonCommandBuilder()
@@ -129,7 +130,7 @@ public class ModelExperiment {
     }
 
     public static void main(String[] args) {
-        new ModelExperiment().exp();
+        new RLModelExperiment().exp();
     }
 
 }
