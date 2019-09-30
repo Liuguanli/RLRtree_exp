@@ -14,6 +14,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import static com.unimelb.cis.rlrtree.ExpParam.*;
@@ -224,8 +226,10 @@ public class ExpExecuter {
 
     public String getRecordFileName() {
         String file = outputFile;
-        String[] names = file.split(File.separator);
-        String name = names[names.length - 1].split("\\.")[0];
+        Path path = Paths.get(outputFile);
+        String fileName = path.getFileName().toString();
+//        String[] names = file.split(File.separator);
+        String name = fileName.split("\\.")[0];
 //        DecimalFormat df = new DecimalFormat("#.0000");
         StringBuilder nameBuilder = new StringBuilder();
         String prefix = null;

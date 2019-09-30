@@ -2,33 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="47fd1ab7-09e2-437d-a85a-ec1c9dbba8e4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/exp/AllExperiment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpExecuter$PythonCommandBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpExecuter$PythonCommandBuilder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpExecuter$QueryBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpExecuter$QueryBuilder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpExecuter$RtreeBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpExecuter$RtreeBuilder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpExecuter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpExecuter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpParam.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpParam.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpParamBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpParamBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/Experiment$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/Experiment$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/Experiment$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/Experiment$4.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/Experiment$5.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/Experiment.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/FileRecoder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/FileRecoder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ModelExperiment$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ModelExperiment$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ModelExperiment$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ModelExperiment$4.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ModelExperiment.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpExecuter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpExecuter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpParam.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpParam.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpParamBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpParamBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/FileRecoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/FileRecoder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/exp/Experiment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/exp/Experiment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/exp/ModelExperiment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/exp/ModelExperiment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/exp/RLModelExperiment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/exp/RLModelExperiment.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -248,22 +227,13 @@
           <line>80</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpExecuter.java</url>
+          <line>228</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-  </component>
-  <component name="debuggerHistoryManager">
-    <expressions id="evaluateExpression">
-      <expression>
-        <expression-string>param.getOutputFileRL()</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>param.getOutputFile()</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-    </expressions>
   </component>
   <component name="masterDetails">
     <states>
