@@ -23,6 +23,9 @@ public class ExpParam {
     public static final int QUERUY_TYPE_POINT_ML = 2;
     public static final int QUERUY_TYPE_WINDOW_ML = 3;
 
+    public static final int INSERT = 4;
+    public static final int INSERT_ML = 5;
+
     /**
      * file template
      * distribution, size, skewness, dim
@@ -34,6 +37,8 @@ public class ExpParam {
     public static String recordRootPointML = isWindows ?"C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\pointML\\" :"/Users/guanli/Dropbox/records/RLRtree/pointML/";
     public static String recordRootWindow = isWindows ?"C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\window\\" :"/Users/guanli/Dropbox/records/RLRtree/window/";
     public static String recordRootWindowML = isWindows ?"C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\windowML\\" :"/Users/guanli/Dropbox/records/RLRtree/windowML/";
+    public static String recordRootInsert = isWindows ?"C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\insert\\" :"/Users/guanli/Dropbox/records/RLRtree/insert/";
+    public static String recordRootInsertML = isWindows ?"C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\insertML\\" :"/Users/guanli/Dropbox/records/RLRtree/insertML/";
 
     static String inputFileTemplate = isWindows ? "D:\\datasets\\RLRtree\\raw\\%s_%d_%d_%d_.csv" : "/Users/guanli/Documents/datasets/RLRtree/raw/%s_%d_%d_%d_.csv";
     static String outputFileTemplate = isWindows ? "D:\\datasets\\RLRtree\\trees\\%s_%s_%d_%d_%d_.csv" : "/Users/guanli/Documents/datasets/RLRtree/trees/%s_%s_%d_%d_%d_.csv";
@@ -61,7 +66,7 @@ public class ExpParam {
     public String mlAlgorithm;
     public int threshold;
     public String treeType;
-    public int queryType;
+    public int insertedNum;
 
     public String getInputFile() {
         return String.format(inputFileTemplate, distribution, size, skewness, dim);

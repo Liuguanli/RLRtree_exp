@@ -8,35 +8,11 @@ import java.util.List;
 
 public class RLModelExperiment {
 
-    public void generateDataSet(ExpParam param) {
-        ExpExecuter executer = new ExpExecuter.PythonCommandBuilder()
-                .buildPythonFile(param.dataGeneratorPython)
-                .buildDistribution(param.distribution)
-                .buildDatasetSize(param.size)
-                .buildSkewness(param.skewness)
-                .buildDim(param.dim)
-                .buildInputFile(param.getInputFile())
-                .build();
-        File file = new File(param.getInputFile());
-        if (file.exists()) {
-            System.out.println("file exists");
-            buildRtree(param);
-            return;
-        }
-        executer.executePythonCommand(executer.getDatasetCommand(), new Callback() {
-            @Override
-            public void onFinish() {
-                System.err.println("Data set generated: " + param.getInputFile());
-                buildRtree(param);
-            }
-
-            @Override
-            public void onError() {
-            }
-        });
-    }
 
     public IRtree buildRtree(ExpParam param) {
+
+
+//        String name = param.getOutputFileRL();
 
         ExpExecuter executer = new ExpExecuter.RtreeBuilder()
                 .buildCurve(param.curve)
@@ -46,13 +22,13 @@ public class RLModelExperiment {
                 .buildMLAlgorithm(param.mlAlgorithm)
                 .buildThreshold(param.threshold)
                 .build();
-
-        return executer.buildMLRtree(new RtreeFinishCallback() {
+//
+        return executer.buildMLRtreeByRL(new RtreeFinishCallback() {
             @Override
             public void onFinish(IRtree rtree) {
                 System.err.println("Rtree build Finish");
                 pointQuery(rtree, param);
-//                windowQuery(rtree, param);
+                windowQuery(rtree, param);
             }
 
             @Override
@@ -85,7 +61,7 @@ public class RLModelExperiment {
     }
 
     public void pointQuery(IRtree rtree, ExpParam param) {
-        System.out.println("pointQuery");
+        System.out.println("exp");
         ExpExecuter executer = new ExpExecuter.QueryBuilder().buildIRtree(rtree).buildDim(rtree.getDim())
                 .buildFileName(param.getOutputFile()).buildIteration(param.times)
                 .buildRLAlgorithm(param.rlAlgorithm)
@@ -105,7 +81,6 @@ public class RLModelExperiment {
         });
     }
 
-
     public void exp() {
         List<ExpParam> params = new ExpParamBuilder()
                 .buildAlgorithm("DQN", "random")
@@ -124,7 +99,7 @@ public class RLModelExperiment {
                 .buildPageSizeAfterTuning(100)
                 .buildExpParams();
         for (ExpParam param : params) {
-            generateDataSet(param);
+            buildRtree(param);
             break;
         }
     }

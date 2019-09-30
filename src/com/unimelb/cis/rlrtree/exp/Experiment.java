@@ -49,8 +49,8 @@ public class Experiment {
             @Override
             public void onFinish(IRtree rtree) {
                 System.err.println("Rtree build Finish");
-                query(rtree, param);
-                System.err.println("Rtree query Finish");
+                exp(rtree, param);
+                System.err.println("Rtree exp Finish");
                 executeRLAlgorithmsByPython(rtree.getLevel(), param);
             }
 
@@ -76,7 +76,7 @@ public class Experiment {
             @Override
             public void onFinish() {
                 System.err.println("RL Finish");
-                query(executer.buildNewRtree(), param, true);
+                exp(executer.buildNewRtree(), param, true);
             }
 
             @Override
@@ -86,25 +86,60 @@ public class Experiment {
         });
     }
 
-    public void query(IRtree rtree, ExpParam param) {
-        query(rtree, param, false);
+    public void exp(IRtree rtree, ExpParam param) {
+        exp(rtree, param, false);
     }
 
-    public void query(IRtree rtree, ExpParam param, boolean buildIsAfterRL) {
-        ExpExecuter executer = new ExpExecuter.QueryBuilder().buildIRtree(rtree).buildDim(rtree.getDim())
+    public void exp(IRtree rtree, ExpParam param, boolean buildIsAfterRL) {
+        ExpExecuter executerWindow = new ExpExecuter.QueryBuilder().buildIRtree(rtree).buildDim(rtree.getDim())
                 .buildIsAfterRL(buildIsAfterRL).buildFileName(param.getOutputFile()).buildIteration(param.times)
                 .buildRLAlgorithm(param.rlAlgorithm)
                 .buildQueryType(ExpParam.QUERUY_TYPE_WINDOW)
                 .buildWindows(param.side).build();
-        executer.executeWindowQuery(new Callback() {
+        executerWindow.executeWindowQuery(new Callback() {
             @Override
             public void onFinish() {
-
+                System.out.println("Window Query Finish");
             }
 
             @Override
             public void onError() {
                 System.out.println("Window Query Finish");
+            }
+        });
+
+        ExpExecuter executerPoint = new ExpExecuter.QueryBuilder().buildIRtree(rtree).buildDim(rtree.getDim())
+                .buildIsAfterRL(buildIsAfterRL).buildFileName(param.getOutputFile()).buildIteration(param.times)
+                .buildRLAlgorithm(param.rlAlgorithm)
+                .buildQueryType(ExpParam.QUERUY_TYPE_POINT)
+                .build();
+        executerPoint.executePointQuery(new Callback() {
+            @Override
+            public void onFinish() {
+                System.out.println("Point Query Finish");
+            }
+
+            @Override
+            public void onError() {
+                System.out.println("Point Query Finish");
+            }
+        });
+
+        ExpExecuter executerInsert = new ExpExecuter.QueryBuilder().buildIRtree(rtree).buildDim(rtree.getDim())
+                .buildIsAfterRL(buildIsAfterRL).buildFileName(param.getOutputFile()).buildIteration(param.times)
+                .buildRLAlgorithm(param.rlAlgorithm)
+                .buildQueryType(ExpParam.INSERT)
+                .buildPointsNum(param.insertedNum)
+                .build();
+        executerInsert.executeInsert(new Callback() {
+            @Override
+            public void onFinish() {
+                System.out.println("Insert Finish");
+            }
+
+            @Override
+            public void onError() {
+                System.out.println("Insert Finish");
             }
         });
     }
@@ -129,19 +164,24 @@ public class Experiment {
         List<ExpParam> params = new ExpParamBuilder()
                 .buildAlgorithm("DQN", "random")
                 .buildCurve("Z", "H")
-                .buildDataSetSize(160000, 20000, 40000, 80000, 10000)
+//                .buildDataSetSize(160000, 1000000, 40000, 80000, 10000)
+                .buildDataSetSize(160000, 1000000, 2000000, 4000000, 8000000, 16000000)
 //                .buildDim(2, 3)
                 .buildDim(2)
                 .buildDistribution("uniform", "normal", "skewed")
-                .buildSides(0.2f, 0.1f, 0.05f, 0.025f, 0.0125f)
-                .buildSkewness(1, 3, 5, 7, 9)
-                .buildTime(100)
+                .buildSides(0.1f)
+//                .buildSides(0.2f, 0.1f, 0.05f, 0.025f, 0.0125f)
+//                .buildSkewness(1, 3, 5, 7, 9)
+                .buildSkewness(1)
+                .buildTime(1)
                 .buildPageSizeBeforeTuning(100)
                 .buildPageSizeAfterTuning(108)
+//                .buildInsertedNum(1, 10, 100, 1000, 10000)
+                .buildInsertedNum(10000)
                 .buildExpParams();
         for (ExpParam param : params) {
             generateDataSet(param);
-            break;
+//            break;
         }
     }
 
@@ -170,7 +210,7 @@ public class Experiment {
 //        ZRtree zRtree = new ZRtree(100);
 //        zRtree.buildRtreeAfterTuning(outputFileRL, 2, 3);
 //        zRtree.buildMLRtree(inputFile);
-//        new Experiment().query(zRtree, outputFileRL, true);
+//        new Experiment().exp(zRtree, outputFileRL, true);
     }
 
 }

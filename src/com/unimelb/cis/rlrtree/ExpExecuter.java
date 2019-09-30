@@ -1,6 +1,7 @@
 package com.unimelb.cis.rlrtree;
 
 import com.unimelb.cis.geometry.Mbr;
+import com.unimelb.cis.node.Point;
 import com.unimelb.cis.structures.IRtree;
 import com.unimelb.cis.structures.RLRtree;
 import com.unimelb.cis.structures.hrtree.HRtree;
@@ -20,6 +21,7 @@ import static com.unimelb.cis.rlrtree.ExpParam.*;
 public class ExpExecuter {
 
     private float[] sides;
+    private int[] insertedPoints;
 
     private int iteration = 100;
 
@@ -46,6 +48,7 @@ public class ExpExecuter {
 
     private int queryType;
     private float sideForEachMbr;
+    private int insertedNum;
 
 
     public ExpExecuter(ExpExecuter.QueryBuilder builder) {
@@ -59,6 +62,7 @@ public class ExpExecuter {
         this.mlAlgorithm = builder.mlAlgorithm;
         this.threshold = builder.threshold;
         this.queryType = builder.queryType;
+        this.insertedPoints = builder.insertedPoints;
     }
 
     public ExpExecuter(ExpExecuter.PythonCommandBuilder builder) {
@@ -103,6 +107,24 @@ public class ExpExecuter {
         rtree.buildRtree(inputFile);
         rtree.output(outputFile);
         callback.onFinish(rtree);
+        return rtree;
+    }
+
+    public IRtree buildMLRtreeByRL(RtreeFinishCallback callback) {
+        IRtree rtree;
+        switch (type) {
+            case ExpParam.PartitionModelRtree:
+                rtree = new PartitionModelRtree(threshold, type, pagesize, mlAlgorithm);
+                break;
+            case ExpParam.RecursiveModelRtree:
+                rtree = new RecursiveModelRtree(threshold, type, pagesize, mlAlgorithm);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + type);
+        }
+//        rtree.buildRtree()
+//        rtree.buildRtree(inputFile);
+//        callback.onFinish(rtree);
         return rtree;
     }
 
@@ -225,6 +247,14 @@ public class ExpExecuter {
                 tag = mlAlgorithm + "_" + (int) (sideForEachMbr * sideForEachMbr * 1000000);
                 prefix = recordRootWindowML;
                 break;
+            case INSERT:
+                tag = mlAlgorithm + "_" + insertedNum;
+                prefix = recordRootInsert;
+                break;
+            case INSERT_ML:
+                tag = mlAlgorithm + "_" + insertedNum;
+                prefix = recordRootInsertML;
+                break;
         }
         nameBuilder.append(prefix).append(name);
         if (!isAfterRL) {
@@ -235,6 +265,18 @@ public class ExpExecuter {
         nameBuilder.append("_").append(tag).append(".txt");
 
         return nameBuilder.toString();
+    }
+
+    public void executeInsert(Callback callback) {
+        for (int i = 0; i < insertedPoints.length; i++) {
+            List<Point> points = Point.getPoints(insertedPoints[i], dim);
+            ExpReturn expReturn = rtree.insert(points);
+            insertedNum = insertedPoints[i];
+            String name = getRecordFileName();
+            System.out.println(name);
+            FileRecoder.write(name, expReturn.toString());
+        }
+        callback.onFinish();
     }
 
     public void executePointQuery(Callback callback) {
@@ -412,6 +454,11 @@ public class ExpExecuter {
             return this;
         }
 
+        public ExpExecuter.QueryBuilder buildPointsNum(int... insertedPoints) {
+            this.insertedPoints = insertedPoints;
+            return this;
+        }
+
         public ExpExecuter.QueryBuilder buildFileName(String fileName) {
             this.fileName = fileName;
             return this;
@@ -471,5 +518,6 @@ public class ExpExecuter {
         private boolean isAfterRL;
         private int threshold;
         private int queryType;
+        private int[] insertedPoints;
     }
 }

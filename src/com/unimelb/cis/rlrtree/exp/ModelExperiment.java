@@ -51,8 +51,7 @@ public class ModelExperiment {
             @Override
             public void onFinish(IRtree rtree) {
                 System.err.println("Rtree build Finish");
-                pointQuery(rtree, param);
-//                windowQuery(rtree, param);
+                exp(rtree, param);
             }
 
             @Override
@@ -62,19 +61,36 @@ public class ModelExperiment {
         });
     }
 
-    public void windowQuery(IRtree rtree, ExpParam param) {
-        System.out.println("windowQuery");
-//        System.out.println(rtree.windowQuery(new Mbr(0.5f, 0.5f, 0.6f, 0.6f)));
-        ExpExecuter executer = new ExpExecuter.QueryBuilder().buildIRtree(rtree).buildDim(rtree.getDim())
+    public void exp(IRtree rtree, ExpParam param) {
+        System.out.println("exp");
+        ExpExecuter executerPoint = new ExpExecuter.QueryBuilder().buildIRtree(rtree).buildDim(rtree.getDim())
+                .buildFileName(param.getOutputFile()).buildIteration(param.times)
+                .buildRLAlgorithm(param.rlAlgorithm)
+                .buildMLAlgorithm(param.mlAlgorithm)
+                .buildQueryType(ExpParam.QUERUY_TYPE_POINT_ML)
+                .buildWindows(param.side).build();
+        executerPoint.executePointQuery(new Callback() {
+            @Override
+            public void onFinish() {
+                System.out.println("Point Query Finish");
+            }
+
+            @Override
+            public void onError() {
+                System.out.println("Point Query Finish");
+            }
+        });
+
+        ExpExecuter executerWindow = new ExpExecuter.QueryBuilder().buildIRtree(rtree).buildDim(rtree.getDim())
                 .buildFileName(param.getOutputFile()).buildIteration(param.times)
                 .buildRLAlgorithm(param.rlAlgorithm)
                 .buildMLAlgorithm(param.mlAlgorithm)
                 .buildQueryType(ExpParam.QUERUY_TYPE_WINDOW_ML)
                 .buildWindows(param.side).build();
-        executer.executeWindowQuery(new Callback() {
+        executerWindow.executeWindowQuery(new Callback() {
             @Override
             public void onFinish() {
-
+                System.out.println("Window Query Finish");
             }
 
             @Override
@@ -82,25 +98,23 @@ public class ModelExperiment {
                 System.out.println("Window Query Finish");
             }
         });
-    }
 
-    public void pointQuery(IRtree rtree, ExpParam param) {
-        System.out.println("pointQuery");
-        ExpExecuter executer = new ExpExecuter.QueryBuilder().buildIRtree(rtree).buildDim(rtree.getDim())
+        ExpExecuter executerInsert = new ExpExecuter.QueryBuilder().buildIRtree(rtree).buildDim(rtree.getDim())
                 .buildFileName(param.getOutputFile()).buildIteration(param.times)
                 .buildRLAlgorithm(param.rlAlgorithm)
                 .buildMLAlgorithm(param.mlAlgorithm)
-                .buildQueryType(ExpParam.QUERUY_TYPE_POINT_ML)
-                .buildWindows(param.side).build();
-        executer.executePointQuery(new Callback() {
+                .buildQueryType(ExpParam.INSERT_ML)
+                .buildPointsNum(param.insertedNum)
+                .build();
+        executerInsert.executeInsert(new Callback() {
             @Override
             public void onFinish() {
-
+                System.out.println("Insert Finish");
             }
 
             @Override
             public void onError() {
-                System.out.println("Window Query Finish");
+                System.out.println("Insert Finish");
             }
         });
     }
@@ -110,22 +124,27 @@ public class ModelExperiment {
         List<ExpParam> params = new ExpParamBuilder()
                 .buildAlgorithm("DQN", "random")
                 .buildCurve("H")
-                .buildDataSetSize(10000, 20000, 40000, 80000, 160000)
-                .buildDim(2, 3)
+//                .buildDataSetSize(10000, 20000, 40000, 80000, 160000)
+                .buildDataSetSize(160000, 1000000, 2000000, 4000000, 8000000, 16000000)
+//                .buildDim(2, 3)
                 .buildDim(2)
                 .buildDistribution("uniform", "normal", "skewed")
-                .buildSides(0.2f, 0.1f, 0.05f, 0.025f, 0.0125f)
-                .buildSkewness(1, 3, 5, 7, 9)
+//                .buildSides(0.2f, 0.1f, 0.05f, 0.025f, 0.0125f)
+                .buildSides(0.1f)
+//                .buildSkewness(1, 3, 5, 7, 9)
+                .buildSkewness(1)
                 .buildTime(100)
                 .buildThreshold(10000)
+//                .buildInsertedNum(1, 10, 100, 1000, 10000)
+                .buildInsertedNum(10000)
 //                .buildMLAlgorithm("MultilayerPerceptron")
-                .buildMLAlgorithm("LinearRegression") // time=211635175  //pageaccess=19866 //windowQuery //time=12758763 //pageaccess=2
+                .buildMLAlgorithm("LinearRegression", "MultilayerPerceptron")
                 .buildTypes("partition")
                 .buildPageSizeAfterTuning(100)
                 .buildExpParams();
         for (ExpParam param : params) {
             generateDataSet(param);
-            break;
+//            break;
         }
     }
 

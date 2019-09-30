@@ -18,6 +18,7 @@ public class ExpParamBuilder {
     int[] thresholds = new int[]{10000};
     String[] mlAlgorithms = new String[]{"MultilayerPerceptron"};
     String[] types = new String[]{"partition"};
+    int[] insertedNums = new int[]{1};
 
     public ExpParamBuilder buildCurve(String... name) {
         this.curves = name;
@@ -51,6 +52,11 @@ public class ExpParamBuilder {
 
     public ExpParamBuilder buildSides(float... sides) {
         this.sides = sides;
+        return this;
+    }
+
+    public ExpParamBuilder buildInsertedNum(int... insertedNums) {
+        this.insertedNums = insertedNums;
         return this;
     }
 
@@ -96,37 +102,38 @@ public class ExpParamBuilder {
      */
     public List<ExpParam> buildExpParams() {
         List<ExpParam> expParams = new ArrayList();
-
-
         for (int i = 0; i < curves.length; i++) {
-            for (int j = 0; j < distributions.length; j++) {
-                for (int k = 0; k < sizes.length; k++) {
-                    for (int l = 0; l < dims.length; l++) {
-                        for (int m = 0; m < rlAlgorithms.length; m++) {
-                            for (int n = 0; n < sides.length; n++) {
-                                for (int o = 0; o < skewnesses.length; o++) {
-                                    for (int p = 0; p < mlAlgorithms.length; p++) {
-                                        for (int q = 0; q < thresholds.length; q++) {
-                                            for (int r = 0; r < types.length; r++) {
-                                                ExpParam expParam = new ExpParam();
-                                                expParam.pagesizeBeforetuning = pagesizeBeforetuning;
-                                                expParam.pagesizeAftertuning = pagesizeAftertuning;
-                                                expParam.curve = curves[i];
-                                                expParam.distribution = distributions[j];
-                                                expParam.size = sizes[k];
-                                                expParam.dim = dims[l];
-                                                expParam.rlAlgorithm = rlAlgorithms[m];
-                                                expParam.side = sides[n];
-                                                expParam.mlAlgorithm = mlAlgorithms[p];
-                                                expParam.threshold = thresholds[q];
-                                                expParam.treeType = types[r];
-                                                if (distributions[j].equals("skewed")) {
-                                                    expParam.skewness = skewnesses[o];
-                                                    expParams.add(expParam);
-                                                } else {
-                                                    expParam.skewness = 1;
-                                                    expParams.add(expParam);
-                                                    break;
+            for (int k = 0; k < sizes.length; k++) {
+                for (int l = 0; l < dims.length; l++) {
+                    for (int m = 0; m < rlAlgorithms.length; m++) {
+                        for (int n = 0; n < sides.length; n++) {
+                            for (int o = 0; o < skewnesses.length; o++) {
+                                for (int p = 0; p < mlAlgorithms.length; p++) {
+                                    for (int q = 0; q < thresholds.length; q++) {
+                                        for (int r = 0; r < types.length; r++) {
+                                            for (int s = 0; s < insertedNums.length; s++) {
+                                                for (int j = 0; j < distributions.length; j++) {
+                                                    ExpParam expParam = new ExpParam();
+                                                    expParam.pagesizeBeforetuning = pagesizeBeforetuning;
+                                                    expParam.pagesizeAftertuning = pagesizeAftertuning;
+                                                    expParam.curve = curves[i];
+                                                    expParam.distribution = distributions[j];
+                                                    expParam.size = sizes[k];
+                                                    expParam.dim = dims[l];
+                                                    expParam.rlAlgorithm = rlAlgorithms[m];
+                                                    expParam.side = sides[n];
+                                                    expParam.mlAlgorithm = mlAlgorithms[p];
+                                                    expParam.threshold = thresholds[q];
+                                                    expParam.treeType = types[r];
+                                                    expParam.insertedNum = insertedNums[s];
+                                                    if (distributions[j].equals("skewed")) {
+                                                        expParam.skewness = skewnesses[o];
+                                                        expParams.add(expParam);
+                                                    } else {
+                                                        expParam.skewness = 1;
+                                                        expParams.add(expParam);
+                                                        break;
+                                                    }
                                                 }
                                             }
                                         }

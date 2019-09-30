@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class FileRecoder {
 
-    public static boolean isWrite = false;
+    public static boolean isWrite = true;
 
     public static void write(String fileName, String content) {
         if (isWrite) {
