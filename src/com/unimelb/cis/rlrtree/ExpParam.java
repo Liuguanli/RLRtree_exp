@@ -1,5 +1,7 @@
 package com.unimelb.cis.rlrtree;
 
+import java.util.Arrays;
+
 public class ExpParam {
 
     static boolean isWindows = false;
@@ -22,9 +24,11 @@ public class ExpParam {
     public static final int QUERUY_TYPE_WINDOW = 1;
     public static final int QUERUY_TYPE_POINT_ML = 2;
     public static final int QUERUY_TYPE_WINDOW_ML = 3;
+    public static final int QUERUY_TYPE_KNN = 4;
+    public static final int QUERUY_TYPE_KNN_ML = 5;
+    public static final int INSERT = 6;
+    public static final int INSERT_ML = 7;
 
-    public static final int INSERT = 4;
-    public static final int INSERT_ML = 5;
 
     /**
      * file template
@@ -33,12 +37,14 @@ public class ExpParam {
      * curve, distribution, size, skewness, dim, rlAlgorithm
      */
 
-    public static String recordRootPoint = isWindows ?"C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\point\\" :"/Users/guanli/Dropbox/records/RLRtree/point/";
-    public static String recordRootPointML = isWindows ?"C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\pointML\\" :"/Users/guanli/Dropbox/records/RLRtree/pointML/";
-    public static String recordRootWindow = isWindows ?"C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\window\\" :"/Users/guanli/Dropbox/records/RLRtree/window/";
-    public static String recordRootWindowML = isWindows ?"C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\windowML\\" :"/Users/guanli/Dropbox/records/RLRtree/windowML/";
-    public static String recordRootInsert = isWindows ?"C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\insert\\" :"/Users/guanli/Dropbox/records/RLRtree/insert/";
-    public static String recordRootInsertML = isWindows ?"C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\insertML\\" :"/Users/guanli/Dropbox/records/RLRtree/insertML/";
+    public static String recordRootPoint = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\point\\" : "/Users/guanli/Dropbox/records/RLRtree/point/";
+    public static String recordRootPointML = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\pointML\\" : "/Users/guanli/Dropbox/records/RLRtree/pointML/";
+    public static String recordRootWindow = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\window\\" : "/Users/guanli/Dropbox/records/RLRtree/window/";
+    public static String recordRootWindowML = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\windowML\\" : "/Users/guanli/Dropbox/records/RLRtree/windowML/";
+    public static String recordRootKnn = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\knn\\" : "/Users/guanli/Dropbox/records/RLRtree/knn/";
+    public static String recordRootKnnML = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\knnML\\" : "/Users/guanli/Dropbox/records/RLRtree/knnML/";
+    public static String recordRootInsert = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\insert\\" : "/Users/guanli/Dropbox/records/RLRtree/insert/";
+    public static String recordRootInsertML = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\insertML\\" : "/Users/guanli/Dropbox/records/RLRtree/insertML/";
 
     static String inputFileTemplate = isWindows ? "D:\\datasets\\RLRtree\\raw\\%s_%d_%d_%d_.csv" : "/Users/guanli/Documents/datasets/RLRtree/raw/%s_%d_%d_%d_.csv";
     static String outputFileTemplate = isWindows ? "D:\\datasets\\RLRtree\\trees\\%s_%s_%d_%d_%d_.csv" : "/Users/guanli/Documents/datasets/RLRtree/trees/%s_%s_%d_%d_%d_.csv";
@@ -61,7 +67,8 @@ public class ExpParam {
     public int pagesizeAftertuning = 104;
     public int times = 100;
     public int dim = 2;
-    public float side;
+    public float[] sides;
+    public int[] ks;
     public String curve = "";
     public String mlAlgorithm;
     public int threshold;
@@ -83,7 +90,9 @@ public class ExpParam {
     @Override
     public String toString() {
         return "ExpParam{" +
-                "distribution='" + distribution + '\'' +
+//                "dataGeneratorPython='" + dataGeneratorPython + '\'' +
+//                ", pythonFile='" + pythonFile + '\'' +
+                ", distribution='" + distribution + '\'' +
                 ", size=" + size +
                 ", skewness=" + skewness +
                 ", rlAlgorithm='" + rlAlgorithm + '\'' +
@@ -91,8 +100,13 @@ public class ExpParam {
                 ", pagesizeAftertuning=" + pagesizeAftertuning +
                 ", times=" + times +
                 ", dim=" + dim +
-                ", side=" + side +
+                ", sides=" + Arrays.asList(sides) +
+                ", ks=" + Arrays.asList(ks) +
                 ", curve='" + curve + '\'' +
+                ", mlAlgorithm='" + mlAlgorithm + '\'' +
+                ", threshold=" + threshold +
+                ", treeType='" + treeType + '\'' +
+                ", insertedNum=" + insertedNum +
                 '}';
     }
 }

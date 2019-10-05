@@ -46,7 +46,7 @@ public class RLModelExperiment {
                 .buildRLAlgorithm(param.rlAlgorithm)
                 .buildMLAlgorithm(param.mlAlgorithm)
                 .buildQueryType(ExpParam.QUERUY_TYPE_WINDOW_ML)
-                .buildWindows(param.side).build();
+                .buildWindows(param.sides).build();
         executer.executeWindowQuery(new Callback() {
             @Override
             public void onFinish() {
@@ -67,7 +67,7 @@ public class RLModelExperiment {
                 .buildRLAlgorithm(param.rlAlgorithm)
                 .buildMLAlgorithm(param.mlAlgorithm)
                 .buildQueryType(ExpParam.QUERUY_TYPE_POINT_ML)
-                .buildWindows(param.side).build();
+                .buildWindows(param.sides).build();
         executer.executePointQuery(new Callback() {
             @Override
             public void onFinish() {

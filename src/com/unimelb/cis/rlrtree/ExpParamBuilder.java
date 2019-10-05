@@ -10,15 +10,16 @@ public class ExpParamBuilder {
     String[] distributions = new String[]{"uniform"};
     int[] sizes = new int[]{10000};
     int[] skewnesses = new int[]{1};
-    String[] rlAlgorithms = new String[]{"QDN"};
+    String[] rlAlgorithms = new String[]{"null"};
     int time = 100;
     int[] dims = new int[]{2};
     String[] curves = new String[]{"H"};
     float[] sides = new float[]{0.1f};
     int[] thresholds = new int[]{10000};
-    String[] mlAlgorithms = new String[]{"MultilayerPerceptron"};
+    String[] mlAlgorithms = new String[]{"LinearRegression"};
     String[] types = new String[]{"partition"};
     int[] insertedNums = new int[]{1};
+    int[] ks = new int[]{1};
 
     public ExpParamBuilder buildCurve(String... name) {
         this.curves = name;
@@ -52,6 +53,11 @@ public class ExpParamBuilder {
 
     public ExpParamBuilder buildSides(float... sides) {
         this.sides = sides;
+        return this;
+    }
+
+    public ExpParamBuilder buildKs(int... ks) {
+        this.ks = ks;
         return this;
     }
 
@@ -106,40 +112,41 @@ public class ExpParamBuilder {
             for (int k = 0; k < sizes.length; k++) {
                 for (int l = 0; l < dims.length; l++) {
                     for (int m = 0; m < rlAlgorithms.length; m++) {
-                        for (int n = 0; n < sides.length; n++) {
-                            for (int o = 0; o < skewnesses.length; o++) {
-                                for (int p = 0; p < mlAlgorithms.length; p++) {
-                                    for (int q = 0; q < thresholds.length; q++) {
-                                        for (int r = 0; r < types.length; r++) {
-                                            for (int s = 0; s < insertedNums.length; s++) {
-                                                for (int j = 0; j < distributions.length; j++) {
-                                                    ExpParam expParam = new ExpParam();
-                                                    expParam.pagesizeBeforetuning = pagesizeBeforetuning;
-                                                    expParam.pagesizeAftertuning = pagesizeAftertuning;
-                                                    expParam.curve = curves[i];
-                                                    expParam.distribution = distributions[j];
-                                                    expParam.size = sizes[k];
-                                                    expParam.dim = dims[l];
-                                                    expParam.rlAlgorithm = rlAlgorithms[m];
-                                                    expParam.side = sides[n];
-                                                    expParam.mlAlgorithm = mlAlgorithms[p];
-                                                    expParam.threshold = thresholds[q];
-                                                    expParam.treeType = types[r];
-                                                    expParam.insertedNum = insertedNums[s];
-                                                    if (distributions[j].equals("skewed")) {
-                                                        expParam.skewness = skewnesses[o];
-                                                        expParams.add(expParam);
-                                                    } else {
-                                                        expParam.skewness = 1;
-                                                        expParams.add(expParam);
+                        for (int o = 0; o < skewnesses.length; o++) {
+                            for (int p = 0; p < mlAlgorithms.length; p++) {
+                                for (int q = 0; q < thresholds.length; q++) {
+                                    for (int r = 0; r < types.length; r++) {
+                                        for (int s = 0; s < insertedNums.length; s++) {
+                                            for (int j = 0; j < distributions.length; j++) {
+                                                ExpParam expParam = new ExpParam();
+                                                expParam.pagesizeBeforetuning = pagesizeBeforetuning;
+                                                expParam.pagesizeAftertuning = pagesizeAftertuning;
+                                                expParam.curve = curves[i];
+                                                expParam.distribution = distributions[j];
+                                                expParam.size = sizes[k];
+                                                expParam.dim = dims[l];
+                                                expParam.rlAlgorithm = rlAlgorithms[m];
+                                                expParam.sides = sides;
+                                                expParam.ks = ks;
+                                                expParam.mlAlgorithm = mlAlgorithms[p];
+                                                expParam.threshold = thresholds[q];
+                                                expParam.treeType = types[r];
+                                                expParam.insertedNum = insertedNums[s];
+                                                expParam.skewness = skewnesses[o];
+                                                if (distributions[j].equals("skewed")) {
+                                                    expParams.add(expParam);
+                                                } else {
+                                                    if (expParam.skewness != 1) {
                                                         break;
                                                     }
+                                                    expParam.skewness = 1;
+                                                    expParams.add(expParam);
                                                 }
                                             }
                                         }
                                     }
-
                                 }
+
                             }
                         }
                     }

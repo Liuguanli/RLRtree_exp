@@ -95,7 +95,7 @@ public class Experiment {
                 .buildIsAfterRL(buildIsAfterRL).buildFileName(param.getOutputFile()).buildIteration(param.times)
                 .buildRLAlgorithm(param.rlAlgorithm)
                 .buildQueryType(ExpParam.QUERUY_TYPE_WINDOW)
-                .buildWindows(param.side).build();
+                .buildWindows(param.sides).build();
         executerWindow.executeWindowQuery(new Callback() {
             @Override
             public void onFinish() {
@@ -165,7 +165,7 @@ public class Experiment {
                 .buildAlgorithm("DQN", "random")
                 .buildCurve("Z", "H")
 //                .buildDataSetSize(160000, 1000000, 40000, 80000, 10000)
-                .buildDataSetSize(160000, 1000000, 2000000, 4000000, 8000000, 16000000)
+                .buildDataSetSize(32000000, 1000000, 2000000, 4000000, 8000000, 16000000)
 //                .buildDim(2, 3)
                 .buildDim(2)
                 .buildDistribution("uniform", "normal", "skewed")
@@ -181,7 +181,7 @@ public class Experiment {
                 .buildExpParams();
         for (ExpParam param : params) {
             generateDataSet(param);
-//            break;
+            break;
         }
     }
 

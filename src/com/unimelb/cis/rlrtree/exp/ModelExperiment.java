@@ -1,9 +1,13 @@
 package com.unimelb.cis.rlrtree.exp;
 
+import com.unimelb.cis.node.Point;
 import com.unimelb.cis.rlrtree.*;
 import com.unimelb.cis.structures.IRtree;
+import com.unimelb.cis.structures.recursivemodel.RecursiveModelRtree;
+import com.unimelb.cis.utils.ExpReturn;
 
 import java.io.File;
+import java.io.PrintStream;
 import java.util.List;
 
 public class ModelExperiment {
@@ -68,7 +72,7 @@ public class ModelExperiment {
                 .buildRLAlgorithm(param.rlAlgorithm)
                 .buildMLAlgorithm(param.mlAlgorithm)
                 .buildQueryType(ExpParam.QUERUY_TYPE_POINT_ML)
-                .buildWindows(param.side).build();
+                .buildWindows(param.sides).build();
         executerPoint.executePointQuery(new Callback() {
             @Override
             public void onFinish() {
@@ -86,7 +90,7 @@ public class ModelExperiment {
                 .buildRLAlgorithm(param.rlAlgorithm)
                 .buildMLAlgorithm(param.mlAlgorithm)
                 .buildQueryType(ExpParam.QUERUY_TYPE_WINDOW_ML)
-                .buildWindows(param.side).build();
+                .buildWindows(param.sides).build();
         executerWindow.executeWindowQuery(new Callback() {
             @Override
             public void onFinish() {
@@ -98,6 +102,14 @@ public class ModelExperiment {
                 System.out.println("Window Query Finish");
             }
         });
+
+        ExpExecuter executerkNN = new ExpExecuter.QueryBuilder().buildIRtree(rtree).buildDim(rtree.getDim())
+                .buildFileName(param.getOutputFile()).buildIteration(param.times)
+                .buildRLAlgorithm(param.rlAlgorithm)
+                .buildMLAlgorithm(param.mlAlgorithm)
+                .buildQueryType(ExpParam.QUERUY_TYPE_KNN_ML)
+                .buildKs(param.ks)
+                .build();
 
         ExpExecuter executerInsert = new ExpExecuter.QueryBuilder().buildIRtree(rtree).buildDim(rtree.getDim())
                 .buildFileName(param.getOutputFile()).buildIteration(param.times)
@@ -122,27 +134,25 @@ public class ModelExperiment {
 
     public void exp() {
         List<ExpParam> params = new ExpParamBuilder()
-                .buildAlgorithm("DQN", "random")
-                .buildCurve("H")
-//                .buildDataSetSize(10000, 20000, 40000, 80000, 160000)
-                .buildDataSetSize(160000, 1000000, 2000000, 4000000, 8000000, 16000000)
-//                .buildDim(2, 3)
+                .buildCurve("H", "Z")
+                .buildDataSetSize(1000000, 2000000, 4000000, 8000000, 16000000, 32000000, 64000000)
+                .buildDataSetSize(1000000)
                 .buildDim(2)
                 .buildDistribution("uniform", "normal", "skewed")
-//                .buildSides(0.2f, 0.1f, 0.05f, 0.025f, 0.0125f)
-                .buildSides(0.1f)
+                .buildSides(0.01f, 0.02f, 0.04f, 0.08f, 0.16f)
+                .buildKs(1, 5, 25, 125, 625)
 //                .buildSkewness(1, 3, 5, 7, 9)
-                .buildSkewness(1)
+                .buildSkewness(1, 9)
                 .buildTime(100)
                 .buildThreshold(10000)
-//                .buildInsertedNum(1, 10, 100, 1000, 10000)
                 .buildInsertedNum(10000)
 //                .buildMLAlgorithm("MultilayerPerceptron")
-                .buildMLAlgorithm("LinearRegression", "MultilayerPerceptron")
-                .buildTypes("partition")
+                .buildMLAlgorithm("LinearRegression", "NaiveBayes")
+                .buildTypes("recursive", "partition")
                 .buildPageSizeAfterTuning(100)
                 .buildExpParams();
         for (ExpParam param : params) {
+            System.out.println(param);
             generateDataSet(param);
 //            break;
         }

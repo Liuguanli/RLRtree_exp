@@ -17,11 +17,13 @@ import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.function.Consumer;
 
 import static com.unimelb.cis.rlrtree.ExpParam.*;
 
 public class ExpExecuter {
 
+    private int[] ks;
     private float[] sides;
     private int[] insertedPoints;
 
@@ -50,10 +52,12 @@ public class ExpExecuter {
 
     private int queryType;
     private float sideForEachMbr;
+    private int k;
     private int insertedNum;
 
 
     public ExpExecuter(ExpExecuter.QueryBuilder builder) {
+        this.ks = builder.ks;
         this.sides = builder.sides;
         this.iteration = builder.iteration;
         this.rtree = builder.rtree;
@@ -251,6 +255,14 @@ public class ExpExecuter {
                 tag = mlAlgorithm + "_" + (int) (sideForEachMbr * sideForEachMbr * 1000000);
                 prefix = recordRootWindowML;
                 break;
+            case QUERUY_TYPE_KNN:
+                tag = k + "";
+                prefix = recordRootKnn;
+                break;
+            case QUERUY_TYPE_KNN_ML:
+                tag = mlAlgorithm + "_" + k;
+                prefix = recordRootKnnML;
+                break;
             case INSERT:
                 tag = mlAlgorithm + "_" + insertedNum;
                 prefix = recordRootInsert;
@@ -304,6 +316,20 @@ public class ExpExecuter {
             }
             ExpReturn expReturn = expResultHelper.getResult();
             sideForEachMbr = sides[i];
+            String name = getRecordFileName();
+            System.out.println(name);
+            FileRecoder.write(name, expReturn.toString());
+        }
+        callback.onFinish();
+    }
+
+    public void executeKnnQuery(Callback callback) {
+        for (int i = 0; i < ks.length; i++) {
+            List<Point> points = Point.getPoints(iteration, dim);
+            ExpResultHelper expResultHelper = new ExpResultHelper();
+            k = ks[i];
+            points.forEach(point -> expResultHelper.addReturn(rtree.knnQuery(point, k)));
+            ExpReturn expReturn = expResultHelper.getResult();
             String name = getRecordFileName();
             System.out.println(name);
             FileRecoder.write(name, expReturn.toString());
@@ -453,6 +479,11 @@ public class ExpExecuter {
 
     public static class QueryBuilder {
 
+        public ExpExecuter.QueryBuilder buildKs(int... ks) {
+            this.ks = ks;
+            return this;
+        }
+
         public ExpExecuter.QueryBuilder buildWindows(float... sides) {
             this.sides = sides;
             return this;
@@ -512,6 +543,7 @@ public class ExpExecuter {
             return new ExpExecuter(this);
         }
 
+        private int[] ks;
         private float[] sides;
         private int iteration = 100;
         private IRtree rtree;
