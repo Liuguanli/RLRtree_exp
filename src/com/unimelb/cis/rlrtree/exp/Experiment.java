@@ -20,6 +20,7 @@ public class Experiment {
                 .build();
         File file = new File(param.getInputFile());
         if (file.exists()) {
+            System.out.println("file exists");
             buildRtree(param);
             return;
         }
@@ -68,6 +69,7 @@ public class Experiment {
                 .buildOutputFile(param.getOutputFileRL())
                 .buildDim(param.dim)
                 .buildLevel(level)
+                .buildMLAlgorithm(param.mlAlgorithm)
                 .buildPagesize(param.pagesizeAftertuning)
                 .buildRLAlgorithm(param.rlAlgorithm)
                 .buildType(param.curve)
@@ -94,6 +96,8 @@ public class Experiment {
         ExpExecuter executerWindow = new ExpExecuter.QueryBuilder().buildIRtree(rtree).buildDim(rtree.getDim())
                 .buildIsAfterRL(buildIsAfterRL).buildFileName(param.getOutputFile()).buildIteration(param.times)
                 .buildRLAlgorithm(param.rlAlgorithm)
+                .buildMLAlgorithm(param.mlAlgorithm)
+                .buildTreeType(param.treeType)
                 .buildQueryType(ExpParam.QUERUY_TYPE_WINDOW)
                 .buildWindows(param.sides).build();
         executerWindow.executeWindowQuery(new Callback() {
@@ -108,40 +112,44 @@ public class Experiment {
             }
         });
 
-        ExpExecuter executerPoint = new ExpExecuter.QueryBuilder().buildIRtree(rtree).buildDim(rtree.getDim())
-                .buildIsAfterRL(buildIsAfterRL).buildFileName(param.getOutputFile()).buildIteration(param.times)
-                .buildRLAlgorithm(param.rlAlgorithm)
-                .buildQueryType(ExpParam.QUERUY_TYPE_POINT)
-                .build();
-        executerPoint.executePointQuery(new Callback() {
-            @Override
-            public void onFinish() {
-                System.out.println("Point Query Finish");
-            }
+//        ExpExecuter executerPoint = new ExpExecuter.QueryBuilder().buildIRtree(rtree).buildDim(rtree.getDim())
+//                .buildIsAfterRL(buildIsAfterRL).buildFileName(param.getOutputFile()).buildIteration(param.times)
+//                .buildMLAlgorithm(param.mlAlgorithm)
+//                .buildTreeType(param.treeType)
+//                .buildRLAlgorithm(param.rlAlgorithm)
+//                .buildQueryType(ExpParam.QUERUY_TYPE_POINT)
+//                .build();
+//        executerPoint.executePointQuery(new Callback() {
+//            @Override
+//            public void onFinish() {
+//                System.out.println("Point Query Finish");
+//            }
+//
+//            @Override
+//            public void onError() {
+//                System.out.println("Point Query Finish");
+//            }
+//        });
 
-            @Override
-            public void onError() {
-                System.out.println("Point Query Finish");
-            }
-        });
-
-        ExpExecuter executerInsert = new ExpExecuter.QueryBuilder().buildIRtree(rtree).buildDim(rtree.getDim())
-                .buildIsAfterRL(buildIsAfterRL).buildFileName(param.getOutputFile()).buildIteration(param.times)
-                .buildRLAlgorithm(param.rlAlgorithm)
-                .buildQueryType(ExpParam.INSERT)
-                .buildPointsNum(param.insertedNum)
-                .build();
-        executerInsert.executeInsert(new Callback() {
-            @Override
-            public void onFinish() {
-                System.out.println("Insert Finish");
-            }
-
-            @Override
-            public void onError() {
-                System.out.println("Insert Finish");
-            }
-        });
+//        ExpExecuter executerInsert = new ExpExecuter.QueryBuilder().buildIRtree(rtree).buildDim(rtree.getDim())
+//                .buildIsAfterRL(buildIsAfterRL).buildFileName(param.getOutputFile()).buildIteration(param.times)
+//                .buildRLAlgorithm(param.rlAlgorithm)
+//                .buildMLAlgorithm(param.mlAlgorithm)
+//                .buildTreeType(param.treeType)
+//                .buildQueryType(ExpParam.INSERT)
+//                .buildPointsNum(param.insertedNum)
+//                .build();
+//        executerInsert.executeInsert(new Callback() {
+//            @Override
+//            public void onFinish() {
+//                System.out.println("Insert Finish");
+//            }
+//
+//            @Override
+//            public void onError() {
+//                System.out.println("Insert Finish");
+//            }
+//        });
     }
 
     public void drawFigures() {
@@ -162,26 +170,24 @@ public class Experiment {
 
     public void exp() {
         List<ExpParam> params = new ExpParamBuilder()
-                .buildAlgorithm("DQN", "random")
+                .buildAlgorithm("DQN", "random", "DDPG")
                 .buildCurve("Z", "H")
-//                .buildDataSetSize(160000, 1000000, 40000, 80000, 10000)
-                .buildDataSetSize(32000000, 1000000, 2000000, 4000000, 8000000, 16000000)
-//                .buildDim(2, 3)
+//                .buildDataSetSize(1000000, 2000000, 4000000, 8000000, 16000000, 32000000, 64000000)
+                .buildDataSetSize(10000)
                 .buildDim(2)
-                .buildDistribution("uniform", "normal", "skewed")
-                .buildSides(0.1f)
-//                .buildSides(0.2f, 0.1f, 0.05f, 0.025f, 0.0125f)
-//                .buildSkewness(1, 3, 5, 7, 9)
+//                .buildDistribution("uniform", "normal", "skewed")
+                .buildDistribution("uniform")
+                .buildSides(0.01f, 0.02f, 0.04f, 0.08f, 0.16f)
+//                .buildKs(1, 5, 25, 125, 625)
                 .buildSkewness(1)
-                .buildTime(1)
-                .buildPageSizeBeforeTuning(100)
-                .buildPageSizeAfterTuning(108)
-//                .buildInsertedNum(1, 10, 100, 1000, 10000)
-                .buildInsertedNum(10000)
+                .buildTime(10)
+                .buildPageSizeBeforeTuning(94)
+                .buildPageSizeAfterTuning(104)
+//                .buildInsertedNum(10000)
                 .buildExpParams();
         for (ExpParam param : params) {
+            System.out.println(param);
             generateDataSet(param);
-            break;
         }
     }
 

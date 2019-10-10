@@ -16,8 +16,8 @@ public class ExpParamBuilder {
     String[] curves = new String[]{"H"};
     float[] sides = new float[]{0.1f};
     int[] thresholds = new int[]{10000};
-    String[] mlAlgorithms = new String[]{"LinearRegression"};
-    String[] types = new String[]{"partition"};
+    String[] mlAlgorithms = new String[]{"null"};
+    String[] types = new String[]{"null"};
     int[] insertedNums = new int[]{1};
     int[] ks = new int[]{1};
 
@@ -108,14 +108,14 @@ public class ExpParamBuilder {
      */
     public List<ExpParam> buildExpParams() {
         List<ExpParam> expParams = new ArrayList();
-        for (int i = 0; i < curves.length; i++) {
-            for (int k = 0; k < sizes.length; k++) {
-                for (int l = 0; l < dims.length; l++) {
-                    for (int m = 0; m < rlAlgorithms.length; m++) {
-                        for (int o = 0; o < skewnesses.length; o++) {
-                            for (int p = 0; p < mlAlgorithms.length; p++) {
-                                for (int q = 0; q < thresholds.length; q++) {
-                                    for (int r = 0; r < types.length; r++) {
+        for (int r = 0; r < types.length; r++) {
+            for (int i = 0; i < curves.length; i++) {
+                for (int k = 0; k < sizes.length; k++) {
+                    for (int l = 0; l < dims.length; l++) {
+                        for (int m = 0; m < rlAlgorithms.length; m++) {
+                            for (int o = 0; o < skewnesses.length; o++) {
+                                for (int p = 0; p < mlAlgorithms.length; p++) {
+                                    for (int q = 0; q < thresholds.length; q++) {
                                         for (int s = 0; s < insertedNums.length; s++) {
                                             for (int j = 0; j < distributions.length; j++) {
                                                 ExpParam expParam = new ExpParam();
@@ -133,14 +133,17 @@ public class ExpParamBuilder {
                                                 expParam.treeType = types[r];
                                                 expParam.insertedNum = insertedNums[s];
                                                 expParam.skewness = skewnesses[o];
+                                                if (types[r].equals("Z") || types[r].equals("H")) {
+                                                    if (!types[r].equals(curves[i])) {
+                                                        continue;
+                                                    }
+                                                }
                                                 if (distributions[j].equals("skewed")) {
                                                     expParams.add(expParam);
                                                 } else {
-                                                    if (expParam.skewness != 1) {
-                                                        break;
+                                                    if (expParam.skewness == 1) {
+                                                        expParams.add(expParam);
                                                     }
-                                                    expParam.skewness = 1;
-                                                    expParams.add(expParam);
                                                 }
                                             }
                                         }
