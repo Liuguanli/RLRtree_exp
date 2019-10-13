@@ -9,8 +9,8 @@ import java.util.function.Consumer;
 public class ExperimentAll {
 
     public static void main(String[] args) {
-//        new ModelExperiment().exp();
-//        new Experiment().exp();
+//        new MLExperiment().exp();
+//        new RLExperiment().exp();
 //
         List<ExpParam> params = new ExpParamBuilder()
                 .buildCurve("Z")

@@ -97,7 +97,7 @@ public class ExpExecuter {
         this.curve = builder.curve;
     }
 
-    public RLRtree buildRLRtree(RtreeFinishCallback callback) {
+    public RLRtree buildRtree(RtreeFinishCallback callback) {
         RLRtree rtree;
         switch (treeType) {
             case ExpParam.ZCurveRtree:
@@ -109,8 +109,8 @@ public class ExpExecuter {
             default:
                 throw new IllegalStateException("Unexpected value: " + treeType);
         }
-        ExpReturn expReturn = rtree.buildRtree(inputFile);
-        System.out.println("buildRLRtree:" + expReturn);
+        rtree.buildRtree(inputFile);
+        System.out.println("buildRtree:" + outputFile);
         rtree.output(outputFile);
         callback.onFinish(rtree);
         return rtree;
@@ -157,7 +157,7 @@ public class ExpExecuter {
         return rtree;
     }
 
-    public RLRtree buildNewRtree() {
+    public RLRtree buildRLRtree() {
         RLRtree rtree;
         switch (treeType) {
             case ExpParam.ZCurveRtree:
@@ -169,6 +169,7 @@ public class ExpExecuter {
             default:
                 throw new IllegalStateException("Unexpected value: " + treeType);
         }
+        System.out.println("buildRLRtree:" + outputFile);
         rtree.buildRtreeAfterTuning(inputFile, dim, level);
         return rtree;
     }
@@ -267,7 +268,7 @@ public class ExpExecuter {
                 prefix = recordRootInsert;
                 break;
             case INSERT_ML:
-                tag = ""+insertedNum;
+                tag = "" + insertedNum;
                 prefix = recordRootInsertML;
                 break;
         }
@@ -314,6 +315,7 @@ public class ExpExecuter {
             sideForEachMbr = sides[i];
             String name = getRecordFileName();
             System.out.println(name);
+            System.out.println("executeWindowQuery:" + expReturn);
             FileRecoder.write(name, expReturn.toString());
         }
         callback.onFinish();

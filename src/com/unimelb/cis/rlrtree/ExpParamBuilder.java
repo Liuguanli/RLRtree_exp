@@ -109,8 +109,8 @@ public class ExpParamBuilder {
     public List<ExpParam> buildExpParams() {
         List<ExpParam> expParams = new ArrayList();
         for (int r = 0; r < types.length; r++) {
-            for (int i = 0; i < curves.length; i++) {
-                for (int k = 0; k < sizes.length; k++) {
+            for (int k = 0; k < sizes.length; k++) {
+                for (int i = 0; i < curves.length; i++) {
                     for (int l = 0; l < dims.length; l++) {
                         for (int m = 0; m < rlAlgorithms.length; m++) {
                             for (int o = 0; o < skewnesses.length; o++) {
