@@ -63,7 +63,7 @@ public class ExpExecuter {
     private int k;
     private int insertedNum;
 
-    private List<Integer> stages;
+    private int stages;
 
     public ExpExecuter(ExpExecuter.QueryBuilder builder) {
         this.ks = builder.ks;
@@ -191,7 +191,7 @@ public class ExpExecuter {
                 rtree = new UnsupervisedPartitionModel(threshold, curve, pagesize, mlAlgorithm, 10);
                 break;
             case RMI:
-                rtree = new OriginalRecursiveModel(pagesize, false, "Z");
+                rtree = new OriginalRecursiveModel(pagesize, false, "Z", stages);
                 break;
             case PartitionRecursive:
                 int maxPartitionNumEachDim = 16;
@@ -324,6 +324,14 @@ public class ExpExecuter {
                 tag = "" + k;
                 prefix = recordRootKnnML;
                 break;
+            case QUERUY_TYPE_ACCURATE_KNN:
+                tag = "" + k;
+                prefix = recordRootAccKnn;
+                break;
+            case QUERUY_TYPE_ACCURATE_KNN_ML:
+                tag = "" + k;
+                prefix = recordRootAccKnnML;
+                break;
             case INSERT:
                 tag = "" + insertedNum;
                 prefix = recordRootInsert;
@@ -339,7 +347,11 @@ public class ExpExecuter {
         } else {
             nameBuilder.append(rlAgorithm);
         }
-        nameBuilder.append("_").append(treeType).append("_").append(mlAlgorithm);
+        nameBuilder.append("_").append(treeType);
+        if (treeType.equals(RMI)) {
+            nameBuilder.append(stages);
+        }
+        nameBuilder.append("_").append(mlAlgorithm);
         nameBuilder.append("_").append(tag).append(".txt");
         return nameBuilder.toString();
     }
@@ -391,7 +403,6 @@ public class ExpExecuter {
     public void executeAccurateWindowQuery(Callback callback) {
         for (int i = 0; i < sides.length; i++) {
             List<Mbr> mbrs = Mbr.getMbrs(sides[i], iteration, dim);
-            ExpResultHelper expResultHelper = new ExpResultHelper();
             ExpReturn expReturn = rtree.windowQueryByScanAll(mbrs);
             sideForEachMbr = sides[i];
             String name = getRecordFileName();
@@ -415,6 +426,27 @@ public class ExpExecuter {
         }
         callback.onFinish();
     }
+
+    public void executeAccurateKnnQuery(Callback callback) {
+        for (int i = 0; i < ks.length; i++) {
+            List<Point> points = Point.getPoints(iteration, dim);
+            ExpResultHelper expResultHelper = new ExpResultHelper();
+            k = ks[i];
+
+            if (rtree instanceof OriginalRecursiveModel) {
+                points.forEach(point -> expResultHelper.addReturn(((OriginalRecursiveModel)rtree).accurateKnnQuery(point, k)));
+            }
+            if (rtree instanceof RecursivePartition) {
+                points.forEach(point -> expResultHelper.addReturn(((RecursivePartition)rtree).accurateKnnQuery(point, k)));
+            }
+            ExpReturn expReturn = expResultHelper.getResult();
+            String name = getRecordFileName();
+            System.out.println(name);
+            FileRecoder.write(name, expReturn.toString());
+        }
+        callback.onFinish();
+    }
+
 
     public static class RtreeBuilder {
 
@@ -453,7 +485,7 @@ public class ExpExecuter {
             return this;
         }
 
-        public ExpExecuter.RtreeBuilder buildStages(List<Integer> stages) {
+        public ExpExecuter.RtreeBuilder buildStages(int stages) {
             this.stages = stages;
             return this;
         }
@@ -470,7 +502,7 @@ public class ExpExecuter {
         private String mlAlgorithm;
         private int threshold;
         private String curve;
-        private List<Integer> stages;
+        private int stages;
 
     }
 
@@ -628,7 +660,7 @@ public class ExpExecuter {
             return this;
         }
 
-        public ExpExecuter.QueryBuilder buildStages(List<Integer> stages) {
+        public ExpExecuter.QueryBuilder buildStages(int stages) {
             this.stages = stages;
             return this;
         }
@@ -650,6 +682,6 @@ public class ExpExecuter {
         private int queryType;
         private int[] insertedPoints;
         private String treeType;
-        private List<Integer> stages;
+        private int stages;
     }
 }

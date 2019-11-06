@@ -38,6 +38,8 @@ public class ExpParam {
     public static final int INSERT_ML = 7;
     public static final int QUERUY_TYPE_ACCURATE_WINDOW = 8;
     public static final int QUERUY_TYPE_ACCURATE_WINDOW_ML = 9;
+    public static final int QUERUY_TYPE_ACCURATE_KNN = 10;
+    public static final int QUERUY_TYPE_ACCURATE_KNN_ML = 11;
 
 
     /**
@@ -55,6 +57,8 @@ public class ExpParam {
     public static String recordRootAccWindowML = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\AccwindowML\\" : "/Users/guanli/Dropbox/records/RLRtree/AccwindowML/";
     public static String recordRootKnn = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\knn\\" : "/Users/guanli/Dropbox/records/RLRtree/knn/";
     public static String recordRootKnnML = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\knnML\\" : "/Users/guanli/Dropbox/records/RLRtree/knnML/";
+    public static String recordRootAccKnn = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\Accknn\\" : "/Users/guanli/Dropbox/records/RLRtree/Accknn/";
+    public static String recordRootAccKnnML = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\AccknnML\\" : "/Users/guanli/Dropbox/records/RLRtree/AccknnML/";
     public static String recordRootInsert = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\insert\\" : "/Users/guanli/Dropbox/records/RLRtree/insert/";
     public static String recordRootInsertML = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\insertML\\" : "/Users/guanli/Dropbox/records/RLRtree/insertML/";
 
@@ -86,7 +90,7 @@ public class ExpParam {
     public int threshold;
     public String treeType;
     public int[] insertedNums;
-    public List<Integer> stages;
+    public int stages;
 
     public String getInputFile() {
         return String.format(inputFileTemplate, distribution, size, skewness, dim);

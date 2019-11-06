@@ -21,7 +21,7 @@ public class ExpParamBuilder {
     String[] types = new String[]{"null"};
     int[] insertedNums = new int[]{1};
     int[] ks = new int[]{1};
-    List<Integer> stages = Arrays.asList(1, 100, 1600);
+    int[] stages = new int[]{2};
 
     public ExpParamBuilder buildCurve(String... name) {
         this.curves = name;
@@ -98,7 +98,7 @@ public class ExpParamBuilder {
         return this;
     }
 
-    public ExpParamBuilder buildStages(List<Integer> stages) {
+    public ExpParamBuilder buildStages(int... stages) {
         this.stages = stages;
         return this;
     }
@@ -124,46 +124,44 @@ public class ExpParamBuilder {
                                 for (int p = 0; p < mlAlgorithms.length; p++) {
                                     for (int q = 0; q < thresholds.length; q++) {
                                         for (int j = 0; j < distributions.length; j++) {
-                                            ExpParam expParam = new ExpParam();
-                                            expParam.pagesizeBeforetuning = pagesizeBeforetuning;
-                                            expParam.pagesizeAftertuning = pagesizeAftertuning;
-                                            expParam.curve = curves[i];
-                                            expParam.distribution = distributions[j];
-                                            expParam.size = sizes[k];
-                                            expParam.dim = dims[l];
-                                            expParam.rlAlgorithm = rlAlgorithms[m];
-                                            expParam.sides = sides;
-                                            expParam.ks = ks;
-                                            expParam.insertedNums = insertedNums;
-                                            expParam.mlAlgorithm = mlAlgorithms[p];
-                                            expParam.threshold = thresholds[q];
-                                            expParam.treeType = types[r];
-                                            expParam.skewness = skewnesses[o];
-                                            if (types[r].equals("Z") || types[r].equals("H")) {
-                                                if (!types[r].equals(curves[i])) {
-                                                    continue;
+                                            for (int n = 0; n < stages.length; n++) {
+                                                ExpParam expParam = new ExpParam();
+                                                expParam.pagesizeBeforetuning = pagesizeBeforetuning;
+                                                expParam.pagesizeAftertuning = pagesizeAftertuning;
+                                                expParam.curve = curves[i];
+                                                expParam.distribution = distributions[j];
+                                                expParam.size = sizes[k];
+                                                expParam.dim = dims[l];
+                                                expParam.rlAlgorithm = rlAlgorithms[m];
+                                                expParam.sides = sides;
+                                                expParam.ks = ks;
+                                                expParam.insertedNums = insertedNums;
+                                                expParam.mlAlgorithm = mlAlgorithms[p];
+                                                expParam.threshold = thresholds[q];
+                                                expParam.treeType = types[r];
+                                                expParam.skewness = skewnesses[o];
+                                                if (types[r].equals("Z") || types[r].equals("H")) {
+                                                    if (!types[r].equals(curves[i])) {
+                                                        continue;
+                                                    }
+                                                } else if (types[r].equals("ZR")) {
+                                                    if (curves[i].equals("H")) {
+                                                        continue;
+                                                    }
+                                                } else if (types[r].equals("HR")) {
+                                                    if (curves[i].equals("Z")) {
+                                                        continue;
+                                                    }
                                                 }
-                                            } else if (types[r].equals("ZR")) {
-                                                if (curves[i].equals("H")) {
-                                                    continue;
-                                                }
-                                            } else if (types[r].equals("HR")) {
-                                                if (curves[i].equals("Z")) {
-                                                    continue;
-                                                }
-                                            }
-                                            int stage = sizes[k] / 100;
-                                            expParam.stages = new ArrayList<>(stages);
-                                            expParam.stages.add(stage);
-                                            if (distributions[j].equals("skewed")) {
-                                                expParams.add(expParam);
-                                            } else {
-                                                if (expParam.skewness == 1) {
+                                                expParam.stages = stages[n];
+                                                if (distributions[j].equals("skewed")) {
                                                     expParams.add(expParam);
+                                                } else {
+                                                    if (expParam.skewness == 1) {
+                                                        expParams.add(expParam);
+                                                    }
                                                 }
                                             }
-
-
                                         }
                                     }
                                 }
