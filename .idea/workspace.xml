@@ -2,33 +2,41 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="47fd1ab7-09e2-437d-a85a-ec1c9dbba8e4" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/libs/SpatialIndices.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace (Guanli Liu's conflicted copy 2019-09-13).xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace (Guanli Liu's conflicted copy 2019-09-30).xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace (Guanli Liu's conflicted copy 2019-10-11).xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/META-INF/RLRtree.kotlin_module" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/META-INF/RLRtree.kotlin_module" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/H_DQN.png" beforeDir="false" afterPath="$PROJECT_DIR$/H_DQN.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/H_null.png" beforeDir="false" afterPath="$PROJECT_DIR$/H_null.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Z_DDPG.png" beforeDir="false" afterPath="$PROJECT_DIR$/Z_DDPG.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Z_DQN.png" beforeDir="false" afterPath="$PROJECT_DIR$/Z_DQN.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Z_null.png" beforeDir="false" afterPath="$PROJECT_DIR$/Z_null.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpExecuter$PythonCommandBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpExecuter$PythonCommandBuilder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpExecuter$QueryBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpExecuter$QueryBuilder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpExecuter$RtreeBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpExecuter$RtreeBuilder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpExecuter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpExecuter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpParam.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpParam.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpParamBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpParamBuilder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpResultHelper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/ExpResultHelper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/Experiment$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/Experiment$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/Experiment$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/Experiment$4.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/Experiment$5.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/Experiment.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/ModelExperiment$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/ModelExperiment$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/ModelExperiment$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/ModelExperiment$4.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/ModelExperiment$5.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/ModelExperiment$6.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/ModelExperiment.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/MLExperiment$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/MLExperiment$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/MLExperiment$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/MLExperiment$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/MLExperiment$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/MLExperiment$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/MLExperiment$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/MLExperiment$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/MLExperiment$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/MLExperiment$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/MLExperiment$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/MLExperiment$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/MLExperiment.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/MLExperiment.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/RLExperiment$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/RLExperiment$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/RLExperiment$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/RLExperiment$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/RLExperiment$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/RLExperiment$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/RLExperiment$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/RLExperiment$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/RLExperiment.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RLRtree/com/unimelb/cis/rlrtree/exp/RLExperiment.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpExecuter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpExecuter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpParam.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpParam.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpParamBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpParamBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpResultHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpResultHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/exp/Experiment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/exp/RLExperiment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/exp/ExperimentAll.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/exp/ExperimentAll.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/exp/ModelExperiment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/exp/MLExperiment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/exp/MLExperiment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/exp/MLExperiment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/exp/RLExperiment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/exp/RLExperiment.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -41,42 +49,6 @@
   </component>
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
-  </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/exp/RLExperiment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="402">
-              <caret line="196" column="35" lean-forward="true" selection-start-line="196" selection-start-column="35" selection-end-line="196" selection-end-column="35" />
-              <folding>
-                <element signature="e#3024#3025#0" expanded="true" />
-                <element signature="e#3064#3065#0" expanded="true" />
-                <element signature="e#6457#6458#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpExecuter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="237">
-              <caret line="310" column="36" selection-start-line="310" selection-start-column="22" selection-end-line="310" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/../SpatialIndices/out/artifacts/SpatialIndices_jar/SpatialIndices.jar!/com/unimelb/cis/geometry/Mbr.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="380" column="28" selection-start-line="380" selection-start-column="28" selection-end-line="380" selection-end-column="28" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -92,50 +64,18 @@
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="1" />
   </component>
+  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
+    <option name="x" value="625" />
+    <option name="y" value="-1080" />
+    <option name="width" value="1920" />
+    <option name="height" value="1080" />
+  </component>
   <component name="ProjectId" id="1QbF8HFsQvyqgBMD5N9i0gIWxFi" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="RLRtree" type="b2602c69:ProjectViewProjectNode" />
-              <item name="RLRtree" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="RLRtree" type="b2602c69:ProjectViewProjectNode" />
-              <item name="RLRtree" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="RLRtree" type="b2602c69:ProjectViewProjectNode" />
-              <item name="RLRtree" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="rlrtree" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="RLRtree" type="b2602c69:ProjectViewProjectNode" />
-              <item name="RLRtree" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="rlrtree" type="462c0819:PsiDirectoryNode" />
-              <item name="exp" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-    </panes>
-  </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="ignore.virus.scanning.warn.message" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../SpatialIndices/out/artifacts/SpatialIndices_jar/SpatialIndices.jar!/" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.4678309" />
@@ -152,6 +92,8 @@
       <recent name="com.unimelb.cis.lrtree" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Leo\Dropbox\shared\RLR-trees\codes\java\RLRtree\libs" />
+      <recent name="$PROJECT_DIR$/libs" />
       <recent name="$PROJECT_DIR$/src/com/unimelb/cis" />
       <recent name="$PROJECT_DIR$/datasets" />
       <recent name="$PROJECT_DIR$" />
@@ -169,7 +111,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.RLExperiment">
+  <component name="RunManager" selected="Application.MLExperiment">
     <configuration name="AllExperiment" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.unimelb.cis.rlrtree.exp.AllExperiment" />
       <module name="RLRtree" />
@@ -253,10 +195,10 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.ExperimentAll" />
-      <item itemvalue="Application.RLExperiment" />
-      <item itemvalue="Application.MLExperiment" />
       <item itemvalue="Application.AllExperiment" />
+      <item itemvalue="Application.ExperimentAll" />
+      <item itemvalue="Application.MLExperiment" />
+      <item itemvalue="Application.RLExperiment" />
       <item itemvalue="Application.RLModelExperiment" />
       <item itemvalue="Application.RecursiveModelRtree" />
     </list>
@@ -300,48 +242,12 @@
       <is-autoscroll-to-source value="true" />
     </todo-panel>
   </component>
-  <component name="ToolWindowManager">
-    <frame x="-1296" y="-1057" width="1920" height="1057" extended-state="6" />
-    <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18157615" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Image Layers" order="2" />
-      <window_info id="Designer" order="3" />
-      <window_info id="Learn" order="4" />
-      <window_info id="Capture Tool" order="5" />
-      <window_info id="Favorites" order="6" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32908705" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.46815288" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39915073" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32908705" />
-      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32908705" />
-      <window_info anchor="bottom" id="Messages" order="10" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Maven" order="3" />
-      <window_info anchor="right" id="Theme Preview" order="4" />
-      <window_info anchor="right" id="Capture Analysis" order="5" />
-      <window_info anchor="right" id="Palette&#9;" order="6" />
-    </layout>
-  </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
             <State>
-              <option name="RECENTLY_FILTERED_USER_GROUPS">
-                <collection />
-              </option>
-              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-                <collection />
-              </option>
               <option name="COLUMN_ORDER" />
             </State>
           </value>
@@ -369,106 +275,95 @@
         <line-breakpoint enabled="true" type="java-line">
           <url>jar://$PROJECT_DIR$/../../weka-3.7.0.jar!/weka/core/Instances.class</url>
           <line>719</line>
-          <properties />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>jar://$PROJECT_DIR$/../SpatialIndices/out/artifacts/SpatialIndices_jar/SpatialIndices.jar!/com/unimelb/cis/node/LeafModel.class</url>
-          <line>89</line>
-          <properties />
+          <line>130</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpExecuter.java</url>
-          <line>233</line>
-          <properties />
+          <line>285</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>jar://$PROJECT_DIR$/../SpatialIndices/out/artifacts/SpatialIndices_jar/SpatialIndices.jar!/com/unimelb/cis/node/LeafModel.class</url>
-          <line>144</line>
-          <properties />
+          <line>187</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpExecuter.java</url>
-          <line>298</line>
-          <properties />
+          <line>363</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpExecuter.java</url>
-          <line>302</line>
-          <properties />
+          <line>368</line>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>jar://$PROJECT_DIR$/../SpatialIndices/out/artifacts/SpatialIndices_jar/SpatialIndices.jar!/com/unimelb/cis/node/NonLeafModel.class</url>
-          <line>216</line>
-          <properties />
+          <line>217</line>
           <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>jar://$PROJECT_DIR$/../SpatialIndices/out/artifacts/SpatialIndices_jar/SpatialIndices.jar!/com/unimelb/cis/node/LeafModel.class</url>
-          <line>161</line>
-          <properties />
-          <option name="timeStamp" value="21" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpExecuter.java</url>
-          <line>138</line>
-          <properties />
-          <option name="timeStamp" value="26" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>jar://$PROJECT_DIR$/../SpatialIndices/out/artifacts/SpatialIndices_jar/SpatialIndices.jar!/com/unimelb/cis/node/NonLeafModel.class</url>
-          <line>82</line>
-          <properties />
+          <line>83</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpExecuter.java</url>
-          <line>154</line>
-          <properties />
-          <option name="timeStamp" value="28" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>jar://$PROJECT_DIR$/../SpatialIndices/out/artifacts/SpatialIndices_jar/SpatialIndices.jar!/com/unimelb/cis/node/NonLeafModel.class</url>
-          <line>110</line>
-          <properties />
+          <line>111</line>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>jar://$PROJECT_DIR$/../SpatialIndices/out/artifacts/SpatialIndices_jar/SpatialIndices.jar!/com/unimelb/cis/node/LeafModel.class</url>
-          <line>49</line>
-          <properties />
-          <option name="timeStamp" value="31" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>jar://$PROJECT_DIR$/../SpatialIndices/out/artifacts/SpatialIndices_jar/SpatialIndices.jar!/com/unimelb/cis/utils/Visualizer.class</url>
-          <line>51</line>
-          <properties />
+          <line>78</line>
           <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/exp/RLExperiment.java</url>
-          <line>55</line>
-          <properties />
+          <line>57</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>jar://$PROJECT_DIR$/../SpatialIndices/out/artifacts/SpatialIndices_jar/SpatialIndices.jar!/com/unimelb/cis/utils/Visualizer.class</url>
-          <line>59</line>
-          <properties />
+          <line>86</line>
           <option name="timeStamp" value="35" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpExecuter.java</url>
-          <line>312</line>
+          <line>377</line>
           <properties>
             <option name="lambda-ordinal" value="-1" />
           </properties>
           <option name="timeStamp" value="37" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpExecuter.java</url>
+          <line>205</line>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpResultHelper.java</url>
+          <line>24</line>
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpExecuter.java</url>
+          <line>167</line>
+          <option name="timeStamp" value="46" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/unimelb/cis/rlrtree/ExpExecuter.java</url>
+          <line>365</line>
+          <option name="timeStamp" value="47" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$PROJECT_DIR$/../SpatialIndices/out/artifacts/SpatialIndices_jar/SpatialIndices.jar!/com/unimelb/cis/node/LeafModel.class</url>
+          <line>212</line>
+          <option name="timeStamp" value="48" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

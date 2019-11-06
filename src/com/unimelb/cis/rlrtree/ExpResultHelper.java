@@ -19,7 +19,7 @@ public class ExpResultHelper {
 
     public ExpReturn getResult() {
         long time = 0;
-        int pageaccess = 0;
+        double pageaccess = 0;
         double accuracy = 0;
         for (int i = 0; i < results.size(); i++) {
             time += results.get(i).time;

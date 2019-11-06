@@ -1,6 +1,7 @@
 package com.unimelb.cis.rlrtree;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class ExpParam {
@@ -17,9 +18,15 @@ public class ExpParam {
 
     public static String originalRtree = "null";
     public static final String ZCurveRtree = "Z";
+    public static final String ZRRtree = "ZR";
     public static final String HCurveRtree = "H";
+    public static final String HRRtree = "HR";
+    public static final String RStar = "Rstar";
     public static final String PartitionModelRtree = "partition";
     public static final String RecursiveModelRtree = "recursive";
+    public static final String KMeans = "kmeans";
+    public static final String RMI = "RMI";
+    public static final String PartitionRecursive = "partitionrecursive";
 
     public static final int QUERUY_TYPE_POINT = 0;
     public static final int QUERUY_TYPE_WINDOW = 1;
@@ -29,6 +36,8 @@ public class ExpParam {
     public static final int QUERUY_TYPE_KNN_ML = 5;
     public static final int INSERT = 6;
     public static final int INSERT_ML = 7;
+    public static final int QUERUY_TYPE_ACCURATE_WINDOW = 8;
+    public static final int QUERUY_TYPE_ACCURATE_WINDOW_ML = 9;
 
 
     /**
@@ -42,6 +51,8 @@ public class ExpParam {
     public static String recordRootPointML = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\pointML\\" : "/Users/guanli/Dropbox/records/RLRtree/pointML/";
     public static String recordRootWindow = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\window\\" : "/Users/guanli/Dropbox/records/RLRtree/window/";
     public static String recordRootWindowML = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\windowML\\" : "/Users/guanli/Dropbox/records/RLRtree/windowML/";
+    public static String recordRootAccWindow = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\Accwindow\\" : "/Users/guanli/Dropbox/records/RLRtree/Accwindow/";
+    public static String recordRootAccWindowML = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\AccwindowML\\" : "/Users/guanli/Dropbox/records/RLRtree/AccwindowML/";
     public static String recordRootKnn = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\knn\\" : "/Users/guanli/Dropbox/records/RLRtree/knn/";
     public static String recordRootKnnML = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\knnML\\" : "/Users/guanli/Dropbox/records/RLRtree/knnML/";
     public static String recordRootInsert = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\insert\\" : "/Users/guanli/Dropbox/records/RLRtree/insert/";
@@ -74,7 +85,8 @@ public class ExpParam {
     public String mlAlgorithm;
     public int threshold;
     public String treeType;
-    public int insertedNum;
+    public int[] insertedNums;
+    public List<Integer> stages;
 
     public String getInputFile() {
         return String.format(inputFileTemplate, distribution, size, skewness, dim);
@@ -107,7 +119,7 @@ public class ExpParam {
                 ", mlAlgorithm='" + mlAlgorithm + '\'' +
                 ", threshold=" + threshold +
                 ", treeType='" + treeType + '\'' +
-                ", insertedNum=" + insertedNum +
+                ", insertedNum=" + Arrays.asList(insertedNums) +
                 '}';
     }
 }

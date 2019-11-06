@@ -20,7 +20,7 @@ public class RLExperiment {
                 .build();
         File file = new File(param.getInputFile());
         if (file.exists()) {
-            System.out.println("file exists");
+            System.out.println("file exists:" +param.getInputFile());
             buildRtree(param);
             return;
         }
@@ -46,11 +46,13 @@ public class RLExperiment {
                 .buildPagesize(param.pagesizeBeforetuning)
                 .build();
 
-        return executer.buildRtree(new RtreeFinishCallback() {
+        boolean isNotForRL = param.rlAlgorithm.equals("null");
+
+        return executer.buildRtree(isNotForRL, new RtreeFinishCallback() {
             @Override
             public void onFinish(IRtree rtree) {
                 System.err.println("Rtree build Finish");
-                if (param.rlAlgorithm.equals("null")) {
+                if (isNotForRL) {
                     exp(rtree, param);
                     System.err.println("Rtree exp Finish");
                     rtree.visualize(600, 600).save(param.curve + "_" + param.rlAlgorithm + ".png");
@@ -78,6 +80,7 @@ public class RLExperiment {
                 .buildRLAlgorithm(param.rlAlgorithm)
                 .buildType(param.curve)
                 .build();
+
         executer.executePythonCommand(executer.getRLCommand(), new Callback() {
             @Override
             public void onFinish() {
@@ -176,11 +179,13 @@ public class RLExperiment {
 
     public void exp() {
         List<ExpParam> params = new ExpParamBuilder()
-                .buildAlgorithm("DQN", "null", "DDPG")
+                .buildAlgorithm("DQN", "null")
 //                .buildAlgorithm("null", "DQN")
                 .buildCurve("Z", "H")
-                .buildDataSetSize(2000000, 4000000, 8000000, 16000000, 32000000, 64000000)
-//                .buildDataSetSize(1000000)
+//                .buildCurve("Z")
+                .buildDataSetSize(32000000)
+//                .buildDataSetSize(8000000)
+//                .buildDataSetSize(10000, 20000, 40000, 80000, 160000, 320000, 640000)
                 .buildDim(2)
 //                .buildDistribution("uniform", "normal", "skewed")
                 .buildDistribution("uniform")
@@ -188,14 +193,20 @@ public class RLExperiment {
 //                .buildKs(1, 5, 25, 125, 625)
                 .buildSkewness(1)
                 .buildTime(100)
-                .buildPageSizeBeforeTuning(90)
+                .buildPageSizeBeforeTuning(80)
                 .buildPageSizeAfterTuning(100)
 //                .buildInsertedNum(10000)
                 .buildExpParams();
-        for (ExpParam param : params) {
-            System.out.println(param);
-            generateDataSet(param);
+        for (int i = 0; i < params.size(); i++) {
+            System.out.println(params.get(i));
+            generateDataSet(params.get(i));
+//            executeRLAlgorithmsByPython(3, params.get(i));
+//            break;
         }
+//        for (ExpParam param : params) {
+//            System.out.println(param);
+//            generateDataSet(param);
+//        }
     }
 
     // todo generate 100 rectangles with different shape. and write to file, them
@@ -203,8 +214,6 @@ public class RLExperiment {
 
         new RLExperiment().exp();
 //        new RLExperiment().drawFigures();
-
-
 //        String distribution = "normal";
 //        int size = 1000000;
 //        int skewness = 1;
