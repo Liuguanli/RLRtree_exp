@@ -86,7 +86,7 @@ public class RLExperiment {
             public void onFinish() {
                 System.err.println("RL Finish");
                 IRtree rtree = executer.buildRLRtree();
-                rtree.visualize(600, 600).save(param.curve + "_" + param.rlAlgorithm + ".png");
+//                rtree.visualize(600, 600).save(param.curve + "_" + param.rlAlgorithm + ".png");
                 exp(rtree, param, true);
             }
 
@@ -183,7 +183,7 @@ public class RLExperiment {
 //                .buildAlgorithm("null", "DQN")
                 .buildCurve("Z", "H")
 //                .buildCurve("Z")
-                .buildDataSetSize(32000000)
+                .buildDataSetSize(10000)
 //                .buildDataSetSize(8000000)
 //                .buildDataSetSize(10000, 20000, 40000, 80000, 160000, 320000, 640000)
                 .buildDim(2)
@@ -200,8 +200,8 @@ public class RLExperiment {
         for (int i = 0; i < params.size(); i++) {
             System.out.println(params.get(i));
             generateDataSet(params.get(i));
-//            executeRLAlgorithmsByPython(3, params.get(i));
-//            break;
+            executeRLAlgorithmsByPython(3, params.get(i));
+            break;
         }
 //        for (ExpParam param : params) {
 //            System.out.println(param);

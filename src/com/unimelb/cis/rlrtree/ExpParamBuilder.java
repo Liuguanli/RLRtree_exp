@@ -20,6 +20,8 @@ public class ExpParamBuilder {
     String[] mlAlgorithms = new String[]{"null"};
     String[] types = new String[]{"null"};
     int[] insertedNums = new int[]{1};
+    float[] insertedNumsPerc = new float[]{1};
+    float[] deletedNumsPerc = new float[]{1};
     int[] ks = new int[]{1};
     int[] stages = new int[]{2};
 
@@ -65,6 +67,16 @@ public class ExpParamBuilder {
 
     public ExpParamBuilder buildInsertedNum(int... insertedNums) {
         this.insertedNums = insertedNums;
+        return this;
+    }
+
+    public ExpParamBuilder buildInsertedNum(float... insertedNumsPerc) {
+        this.insertedNumsPerc = insertedNumsPerc;
+        return this;
+    }
+
+    public ExpParamBuilder buildDeletedNum(float... deletedNumsPerc) {
+        this.deletedNumsPerc = deletedNumsPerc;
         return this;
     }
 
@@ -135,7 +147,18 @@ public class ExpParamBuilder {
                                                 expParam.rlAlgorithm = rlAlgorithms[m];
                                                 expParam.sides = sides;
                                                 expParam.ks = ks;
-                                                expParam.insertedNums = insertedNums;
+
+                                                expParam.insertedNums = new int[insertedNumsPerc.length];
+                                                expParam.deleteNums = new int[deletedNumsPerc.length];
+
+                                                for (int s = 0; s < insertedNumsPerc.length; s++) {
+                                                    expParam.insertedNums[s] = (int) (expParam.size * insertedNumsPerc[s]);
+                                                }
+
+                                                for (int s = 0; s < deletedNumsPerc.length; s++) {
+                                                    expParam.deleteNums[s] = (int) (expParam.size * deletedNumsPerc[s]);
+                                                }
+
                                                 expParam.mlAlgorithm = mlAlgorithms[p];
                                                 expParam.threshold = thresholds[q];
                                                 expParam.treeType = types[r];
@@ -157,10 +180,10 @@ public class ExpParamBuilder {
                                                 if (distributions[j].equals("skewed")) {
                                                     expParams.add(expParam);
                                                 } else {
-                                                    if (expParam.skewness == 1) {
-                                                        expParams.add(expParam);
-                                                    }
+                                                    expParam.skewness = 1;
+                                                    expParams.add(expParam);
                                                 }
+                                                expParam.times = time;
                                             }
                                         }
                                     }

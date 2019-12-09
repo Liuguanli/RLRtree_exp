@@ -40,6 +40,16 @@ public class ExpParam {
     public static final int QUERUY_TYPE_ACCURATE_WINDOW_ML = 9;
     public static final int QUERUY_TYPE_ACCURATE_KNN = 10;
     public static final int QUERUY_TYPE_ACCURATE_KNN_ML = 11;
+    public static final int INSERT_POINT_QUERY_ML = 12;
+    public static final int INSERT_WINDOW_QUERY_ML = 13;
+    public static final int INSERT_KNN_QUERY_ML = 14;
+
+
+    public static final int DELETE_ML = 15;
+    public static final int DELETE_POINT_QUERY_ML = 16;
+    public static final int DELETE_WINDOW_QUERY_ML = 17;
+    public static final int DELETE_KNN_QUERY_ML = 18;
+
 
 
     /**
@@ -61,6 +71,13 @@ public class ExpParam {
     public static String recordRootAccKnnML = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\AccknnML\\" : "/Users/guanli/Dropbox/records/RLRtree/AccknnML/";
     public static String recordRootInsert = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\insert\\" : "/Users/guanli/Dropbox/records/RLRtree/insert/";
     public static String recordRootInsertML = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\insertML\\" : "/Users/guanli/Dropbox/records/RLRtree/insertML/";
+    public static String recordRootInsertPointQueryML = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\insertPointqueryML\\" : "/Users/guanli/Dropbox/records/RLRtree/insertPointqueryML/";
+    public static String recordRootInsertWindowQueryML = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\insertWindowqueryML\\" : "/Users/guanli/Dropbox/records/RLRtree/insertWindowqueryML/";
+    public static String recordRootInsertKnnQueryML = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\insertKnnqueryML\\" : "/Users/guanli/Dropbox/records/RLRtree/insertKnnqueryML/";
+    public static String recordRootDeleteML = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\deleteML\\" : "/Users/guanli/Dropbox/records/RLRtree/deleteML/";
+    public static String recordRootDeletePointQueryML = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\deletePointqueryML\\" : "/Users/guanli/Dropbox/records/RLRtree/deletePointqueryML/";
+    public static String recordRootDeleteWindowQueryML = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\deleteWindowqueryML\\" : "/Users/guanli/Dropbox/records/RLRtree/deleteWindowqueryML/";
+    public static String recordRootDeleteKnnQueryML = isWindows ? "C:\\Users\\Leo\\Dropbox\\records\\RLRtree\\deleteKnnqueryML\\" : "/Users/guanli/Dropbox/records/RLRtree/deleteKnnqueryML/";
 
     static String inputFileTemplate = isWindows ? "D:\\datasets\\RLRtree\\raw\\%s_%d_%d_%d_.csv" : "/Users/guanli/Documents/datasets/RLRtree/raw/%s_%d_%d_%d_.csv";
     static String outputFileTemplate = isWindows ? "D:\\datasets\\RLRtree\\trees\\%s_%s_%d_%d_%d_.csv" : "/Users/guanli/Documents/datasets/RLRtree/trees/%s_%s_%d_%d_%d_.csv";
@@ -90,6 +107,7 @@ public class ExpParam {
     public int threshold;
     public String treeType;
     public int[] insertedNums;
+    public int[] deleteNums;
     public int stages;
 
     public String getInputFile() {
@@ -123,7 +141,8 @@ public class ExpParam {
                 ", mlAlgorithm='" + mlAlgorithm + '\'' +
                 ", threshold=" + threshold +
                 ", treeType='" + treeType + '\'' +
-                ", insertedNum=" + Arrays.asList(insertedNums) +
+                ", insertedNum=" + Arrays.toString(insertedNums) +
+                ", deleteNums=" + Arrays.toString(deleteNums) +
                 '}';
     }
 }

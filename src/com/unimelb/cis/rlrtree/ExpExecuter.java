@@ -22,10 +22,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.function.Consumer;
 
 import static com.unimelb.cis.rlrtree.ExpParam.*;
 
@@ -62,6 +59,7 @@ public class ExpExecuter {
     private float sideForEachMbr;
     private int k;
     private int insertedNum;
+    private int deletedNum;
 
     private int stages;
 
@@ -255,11 +253,13 @@ public class ExpExecuter {
     }
 
     public void executePythonCommand(String command, Callback callback) {
-        File file = new File(outputFile);
-        if (file.exists()) {
-            System.out.println("file exists:" + outputFile);
-            callback.onFinish();
-            return;
+        if (outputFile != null) {
+            File file = new File(outputFile);
+            if (file.exists()) {
+                System.out.println("file exists:" + outputFile);
+                callback.onFinish();
+                return;
+            }
         }
         System.err.println(command);
         Process proc;
@@ -340,6 +340,34 @@ public class ExpExecuter {
                 tag = "" + insertedNum;
                 prefix = recordRootInsertML;
                 break;
+            case INSERT_POINT_QUERY_ML:
+                tag = "" + insertedNum;
+                prefix = recordRootInsertPointQueryML;
+                break;
+            case INSERT_WINDOW_QUERY_ML:
+                tag = "" + insertedNum;
+                prefix = recordRootInsertWindowQueryML;
+                break;
+            case INSERT_KNN_QUERY_ML:
+                tag = "" + insertedNum;
+                prefix = recordRootInsertKnnQueryML;
+                break;
+            case DELETE_ML:
+                tag = "" + deletedNum;
+                prefix = recordRootDeleteML;
+                break;
+            case DELETE_POINT_QUERY_ML:
+                tag = "" + deletedNum;
+                prefix = recordRootDeletePointQueryML;
+                break;
+            case DELETE_WINDOW_QUERY_ML:
+                tag = "" + deletedNum;
+                prefix = recordRootDeleteWindowQueryML;
+                break;
+            case DELETE_KNN_QUERY_ML:
+                tag = "" + deletedNum;
+                prefix = recordRootDeleteKnnQueryML;
+                break;
         }
         nameBuilder.append(prefix).append(name);
         if (!isAfterRL) {
@@ -356,20 +384,105 @@ public class ExpExecuter {
         return nameBuilder.toString();
     }
 
+    public void executeDelete(Callback callback) {
+        ExpReturn expReturn = new ExpReturn();
+        int sum = 0;
+        int oldQueryType = queryType;
+        int defaultTime = 1000;
+        for (int i = 0; i < insertedPoints.length; i++) {
+            List<Point> points = rtree.getPoints(insertedPoints[i]);
+            points = points.subList(sum, insertedPoints[i]);
+            sum = insertedPoints[i];
+
+
+            ExpReturn temp = rtree.delete(points);
+            expReturn.time += temp.time;
+            System.out.println("deleted points:" + points.size() + "time:" + temp.time);
+            expReturn.pageaccess += temp.pageaccess;
+            deletedNum = insertedPoints[i];
+            String name = getRecordFileName();
+            System.out.println(name);
+            FileRecoder.write(name, expReturn.toString());
+
+            // point query after deletion
+            queryType = DELETE_POINT_QUERY_ML;
+            ExpReturn pointExpReturn = rtree.pointQuery(rtree.getPoints());
+            name = getRecordFileName();
+            System.out.println("query point size:" + rtree.getPoints().size());
+            FileRecoder.write(name, pointExpReturn.toString());
+
+            // window query after deletion
+            queryType = DELETE_WINDOW_QUERY_ML;
+            List<Mbr> mbrs = Mbr.getMbrs(rtree.getPoints(), 0.01f, defaultTime, dim);
+            ExpResultHelper expResultHelper = new ExpResultHelper();
+            mbrs.forEach(mbr -> expResultHelper.addReturn(rtree.windowQuery(mbr)));
+            ExpReturn windowExpReturn = expResultHelper.getResult();
+            name = getRecordFileName();
+//            System.out.println("window:" + name);
+            FileRecoder.write(name, windowExpReturn.toString());
+
+            // knn query after deletion
+            queryType = DELETE_KNN_QUERY_ML;
+            List<Point> knnQueryPoints = Point.getPoints(rtree.getPoints(), defaultTime, dim);
+            ExpResultHelper kNNExpResultHelper = new ExpResultHelper();
+            knnQueryPoints.forEach(point -> kNNExpResultHelper.addReturn(rtree.knnQuery(point, 25)));
+            ExpReturn kNNExpReturn = kNNExpResultHelper.getResult();
+            name = getRecordFileName();
+//            System.out.println("knn:" + name);
+            FileRecoder.write(name, kNNExpReturn.toString());
+
+            queryType = oldQueryType;
+
+
+        }
+        callback.onFinish();
+    }
+
     public void executeInsert(Callback callback) {
         ExpReturn expReturn = new ExpReturn();
         int sum = 0;
+        int oldQueryType = queryType;
+        int defaultTime = 1000;
         for (int i = 0; i < insertedPoints.length; i++) {
             List<Point> points = Point.getPoints(insertedPoints[i], dim);
             points = points.subList(sum, insertedPoints[i]);
             sum = insertedPoints[i];
-            ExpReturn temp = rtree.insert(points);
+            ExpReturn temp = rtree.insertByLink(points);
             expReturn.time += temp.time;
             expReturn.pageaccess += temp.pageaccess;
             insertedNum = insertedPoints[i];
             String name = getRecordFileName();
             System.out.println(name);
             FileRecoder.write(name, expReturn.toString());
+
+            // point query after insertion
+            queryType = INSERT_POINT_QUERY_ML;
+            ExpReturn pointExpReturn = rtree.pointQuery(rtree.getPoints());
+            name = getRecordFileName();
+            System.out.println("query point size:" + rtree.getPoints().size());
+            FileRecoder.write(name, pointExpReturn.toString());
+
+            // window query after insertion
+            queryType = INSERT_WINDOW_QUERY_ML;
+            List<Mbr> mbrs = Mbr.getMbrs(rtree.getPoints(), 0.01f, defaultTime, dim);
+            ExpResultHelper expResultHelper = new ExpResultHelper();
+            mbrs.forEach(mbr -> expResultHelper.addReturn(rtree.windowQuery(mbr)));
+            ExpReturn windowExpReturn = expResultHelper.getResult();
+            name = getRecordFileName();
+//            System.out.println("window:" + name);
+            FileRecoder.write(name, windowExpReturn.toString());
+
+            // knn query after insertion
+            queryType = INSERT_KNN_QUERY_ML;
+            List<Point> knnQueryPoints = Point.getPoints(rtree.getPoints(), defaultTime, dim);
+            ExpResultHelper kNNExpResultHelper = new ExpResultHelper();
+            knnQueryPoints.forEach(point -> kNNExpResultHelper.addReturn(rtree.knnQuery(point, 25)));
+            ExpReturn kNNExpReturn = kNNExpResultHelper.getResult();
+            name = getRecordFileName();
+//            System.out.println("knn:" + name);
+            FileRecoder.write(name, kNNExpReturn.toString());
+
+            queryType = oldQueryType;
         }
         callback.onFinish();
     }
@@ -387,7 +500,7 @@ public class ExpExecuter {
 
     public void executeWindowQuery(Callback callback) {
         for (int i = 0; i < sides.length; i++) {
-            List<Mbr> mbrs = Mbr.getMbrs(sides[i], iteration, dim);
+            List<Mbr> mbrs = Mbr.getMbrs(rtree.getPoints(), sides[i], iteration, dim);
             ExpResultHelper expResultHelper = new ExpResultHelper();
             mbrs.forEach(mbr -> expResultHelper.addReturn(rtree.windowQuery(mbr)));
             ExpReturn expReturn = expResultHelper.getResult();
@@ -402,7 +515,7 @@ public class ExpExecuter {
 
     public void executeAccurateWindowQuery(Callback callback) {
         for (int i = 0; i < sides.length; i++) {
-            List<Mbr> mbrs = Mbr.getMbrs(sides[i], iteration, dim);
+            List<Mbr> mbrs = Mbr.getMbrs(rtree.getPoints(), sides[i], iteration, dim);
             ExpReturn expReturn = rtree.windowQueryByScanAll(mbrs);
             sideForEachMbr = sides[i];
             String name = getRecordFileName();
@@ -415,7 +528,7 @@ public class ExpExecuter {
 
     public void executeKnnQuery(Callback callback) {
         for (int i = 0; i < ks.length; i++) {
-            List<Point> points = Point.getPoints(iteration, dim);
+            List<Point> points = Point.getPoints(rtree.getPoints(), iteration, dim);
             ExpResultHelper expResultHelper = new ExpResultHelper();
             k = ks[i];
             points.forEach(point -> expResultHelper.addReturn(rtree.knnQuery(point, k)));
@@ -429,15 +542,15 @@ public class ExpExecuter {
 
     public void executeAccurateKnnQuery(Callback callback) {
         for (int i = 0; i < ks.length; i++) {
-            List<Point> points = Point.getPoints(iteration, dim);
+            List<Point> points = Point.getPoints(rtree.getPoints(), iteration, dim);
             ExpResultHelper expResultHelper = new ExpResultHelper();
             k = ks[i];
 
             if (rtree instanceof OriginalRecursiveModel) {
-                points.forEach(point -> expResultHelper.addReturn(((OriginalRecursiveModel)rtree).accurateKnnQuery(point, k)));
+                points.forEach(point -> expResultHelper.addReturn(((OriginalRecursiveModel) rtree).accurateKnnQuery(point, k)));
             }
             if (rtree instanceof RecursivePartition) {
-                points.forEach(point -> expResultHelper.addReturn(((RecursivePartition)rtree).accurateKnnQuery(point, k)));
+                points.forEach(point -> expResultHelper.addReturn(((RecursivePartition) rtree).accurateKnnQuery(point, k)));
             }
             ExpReturn expReturn = expResultHelper.getResult();
             String name = getRecordFileName();
@@ -685,3 +798,5 @@ public class ExpExecuter {
         private int stages;
     }
 }
+
+

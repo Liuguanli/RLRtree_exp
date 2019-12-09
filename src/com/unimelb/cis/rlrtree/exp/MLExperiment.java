@@ -24,14 +24,14 @@ public class MLExperiment {
         if (file.exists()) {
             System.out.println(file.getAbsoluteFile());
             System.out.println("file exists");
-            buildRtree(param);
+//            buildRtree(param);
             return;
         }
         executer.executePythonCommand(executer.getDatasetCommand(), new Callback() {
             @Override
             public void onFinish() {
                 System.err.println("Data set generated: " + param.getInputFile());
-                buildRtree(param);
+//                buildRtree(param);
             }
 
             @Override
@@ -144,6 +144,7 @@ public class MLExperiment {
                 .buildRLAlgorithm(param.rlAlgorithm)
                 .buildMLAlgorithm(param.mlAlgorithm)
                 .buildTreeType(param.treeType)
+                .buildStages(param.stages)
                 .buildDim(param.dim)
                 .buildQueryType(ExpParam.QUERUY_TYPE_ACCURATE_KNN_ML)
                 .buildKs(param.ks)
@@ -167,6 +168,7 @@ public class MLExperiment {
                 .buildRLAlgorithm(param.rlAlgorithm)
                 .buildMLAlgorithm(param.mlAlgorithm)
                 .buildTreeType(param.treeType)
+                .buildStages(param.stages)
                 .buildDim(param.dim)
                 .buildQueryType(ExpParam.QUERUY_TYPE_KNN_ML)
                 .buildKs(param.ks)
@@ -191,6 +193,7 @@ public class MLExperiment {
                 .buildRLAlgorithm(param.rlAlgorithm)
                 .buildMLAlgorithm(param.mlAlgorithm)
                 .buildTreeType(param.treeType)
+                .buildStages(param.stages)
                 .buildQueryType(ExpParam.INSERT_ML)
                 .buildPointsNum(param.insertedNums)
                 .buildDim(param.dim)
@@ -203,22 +206,45 @@ public class MLExperiment {
 
             @Override
             public void onError() {
-                System.out.println("Insert Finish");
+                System.err.println("Insert Error");
             }
         });
     }
 
+    public void delete(IRtree rtree, ExpParam param) {
+        ExpExecuter executerDelete = new ExpExecuter.QueryBuilder().buildIRtree(rtree)
+                .buildFileName(param.getOutputFile()).buildIteration(param.times)
+                .buildRLAlgorithm(param.rlAlgorithm)
+                .buildMLAlgorithm(param.mlAlgorithm)
+                .buildTreeType(param.treeType)
+                .buildStages(param.stages)
+                .buildQueryType(ExpParam.DELETE_ML)
+                .buildPointsNum(param.deleteNums)
+                .buildDim(param.dim)
+                .build();
+        executerDelete.executeDelete(new Callback() {
+            @Override
+            public void onFinish() {
+                System.out.println("Delete Finish");
+            }
+
+            @Override
+            public void onError() {
+                System.err.println("Delete Error");
+            }
+        });
+    }
 
     public void expKmeans() {
         List<ExpParam> paramsRec = new ExpParamBuilder()
                 .buildCurve("H")
 //                .buildDataSetSize(1000000, 2000000, 4000000, 8000000, 16000000, 32000000)
-                .buildDataSetSize(160000)
+                .buildDataSetSize(16000000)
                 .buildDim(2)
-                .buildDistribution("uniform")
+                .buildDistribution("uniform", "normal", "real")
+                .buildSkewness(1)
                 .buildSides(0.01f, 0.02f, 0.04f, 0.08f, 0.16f)
                 .buildKs(1, 5, 25, 125, 625)
-                .buildSkewness(1)
                 .buildTime(100)
                 .buildThreshold(10000)
 //                .buildInsertedNum(10000)
@@ -244,16 +270,20 @@ public class MLExperiment {
     public void expRMI() {
         List<ExpParam> paramsRec = new ExpParamBuilder()
                 .buildCurve("Z")
-                .buildDataSetSize(1000000, 2000000, 4000000, 8000000, 16000000, 32000000, 64000000)
-//                .buildDataSetSize(160000)
+//                .buildDataSetSize(1000000, 2000000, 4000000, 8000000, 16000000, 32000000, 64000000)
+//                .buildDataSetSize(5000000, 6000000, 7000000, 8000000)
                 .buildDim(2)
                 .buildDistribution("uniform")
+//                .buildDistribution("uniform", "normal", "skewed", "real")
+                .buildSkewness(9)
                 .buildSides(0.01f, 0.02f, 0.04f, 0.08f, 0.16f)
                 .buildKs(1, 5, 25, 125, 625)
-                .buildSkewness(1)
+//                .buildSkewness(1,3,5,7,9)
                 .buildTime(100)
                 .buildThreshold(10000)
-                .buildInsertedNum(10000, 20000, 40000, 80000, 160000)
+//                .buildInsertedNum(10000, 20000, 40000, 80000, 160000)
+                .buildInsertedNum(0.1f, 0.2f, 0.3f, 0.4f, 0.5f)
+                .buildDeletedNum(0.1f, 0.2f, 0.3f, 0.4f, 0.5f)
 //                .buildInsertedNum(10000, 20000, 40000, 80000, 160000)
 //                .buildMLAlgorithm("LinearRegression", "NaiveBayes")
                 .buildMLAlgorithm("MultilayerPerceptron")
@@ -264,31 +294,37 @@ public class MLExperiment {
         for (int i = 0; i < paramsRec.size(); i++) {
             ExpParam expParam = paramsRec.get(i);
             System.out.println(expParam);
+            generateDataSet(expParam);
             IRtree rtree = buildRtree(expParam);
-            pointQuery(rtree, expParam);
-            windowQuery(rtree, expParam);
-            accurateWindowQuery(rtree, expParam);
-            knnQuery(rtree, expParam);
-            accurateKnnQuery(rtree, expParam);
-            accurateKnnQuery(rtree, expParam);
+//            pointQuery(rtree, expParam);
+//            windowQuery(rtree, expParam);
+//            accurateWindowQuery(rtree, expParam);
+//            knnQuery(rtree, expParam);
+//            accurateKnnQuery(rtree, expParam);
             insert(rtree, expParam);
+            rtree = buildRtree(expParam);
+            delete(rtree, expParam);
         }
     }
 
     public void expTrees() {
         List<ExpParam> paramsRec = new ExpParamBuilder()
                 .buildCurve("H")
-                .buildDataSetSize(1000000, 2000000, 4000000, 8000000, 16000000, 32000000, 64000000)
-//                .buildDataSetSize(160000)
+//                .buildDataSetSize(1000000, 2000000, 4000000, 8000000, 16000000, 32000000, 64000000)
+                .buildDataSetSize(16000000)
                 .buildDim(2)
-                .buildDistribution("uniform")
+                .buildDistribution("uniform", "normal", "skewed", "real")
+//                .buildDistribution("uniform")
+                .buildSkewness(9)
                 .buildSides(0.01f, 0.02f, 0.04f, 0.08f, 0.16f)
                 .buildKs(1, 5, 25, 125, 625)
-                .buildSkewness(1)
-                .buildTime(100)
+//                .buildSkewness(1,3,5,7,9)
+                .buildTime(1000)
                 .buildThreshold(10000)
 //                .buildInsertedNum(10000)
-                .buildInsertedNum(10000, 20000, 40000, 80000, 160000)
+//                .buildInsertedNum(10000, 20000, 40000, 80000, 160000)
+                .buildInsertedNum(0.1f, 0.2f, 0.3f, 0.4f, 0.5f)
+                .buildDeletedNum(0.1f, 0.2f, 0.3f, 0.4f, 0.5f)
 //                .buildMLAlgorithm("LinearRegression", "NaiveBayes")
                 .buildTypes(RStar, HRRtree, HCurveRtree)
 //                .buildTypes(HCurveRtree)
@@ -299,26 +335,31 @@ public class MLExperiment {
             ExpParam expParam = paramsRec.get(i);
             System.out.println(expParam);
             IRtree rtree = buildRtree(expParam);
-            pointQuery(rtree, expParam);
+//            pointQuery(rtree, expParam);
 //            windowQuery(rtree, expParam);
 //            knnQuery(rtree, expParam);
-//            insert(rtree, expParam);
+            insert(rtree, expParam);
+            rtree = buildRtree(expParam);
+            delete(rtree, expParam);
         }
     }
 
     public void expPartition() {
         List<ExpParam> paramsRec = new ExpParamBuilder()
                 .buildCurve("H")
-                .buildDataSetSize(1000000, 2000000, 4000000, 8000000, 16000000, 32000000, 64000000)
-//                .buildDataSetSize(160000)
+//                .buildDataSetSize(1000000, 2000000, 4000000, 8000000, 16000000, 32000000, 64000000)
+                .buildDataSetSize(16000000)
                 .buildDim(2)
-                .buildDistribution("uniform")
+                .buildDistribution("uniform", "normal", "real")
+                .buildSkewness(1)
                 .buildSides(0.01f, 0.02f, 0.04f, 0.08f, 0.16f)
                 .buildKs(1, 5, 25, 125, 625)
-                .buildSkewness(1)
+//                .buildSkewness(1,3,5,7,9)
                 .buildTime(100)
                 .buildThreshold(10000)
-                .buildInsertedNum(10000, 20000, 40000, 80000, 160000)
+//                .buildInsertedNum(10000, 20000, 40000, 80000, 160000)
+                .buildInsertedNum(0.1f, 0.2f, 0.3f, 0.4f, 0.5f)
+                .buildDeletedNum(0.1f, 0.2f, 0.3f, 0.4f, 0.5f)
                 .buildMLAlgorithm("LinearRegression", "NaiveBayes")
                 .buildTypes(PartitionModelRtree)
                 .buildExpParams();
@@ -339,17 +380,21 @@ public class MLExperiment {
     public void expPartitionRegression() {
         List<ExpParam> paramsRec = new ExpParamBuilder()
                 .buildCurve("H")
-                .buildDataSetSize(1000000, 2000000, 4000000, 8000000, 16000000, 32000000, 64000000)
-//                .buildDataSetSize(160000)
+//                .buildDataSetSize(1000000, 2000000, 4000000, 8000000, 16000000, 32000000, 64000000)
+                .buildDataSetSize(1000000)
                 .buildDim(2)
+//                .buildDistribution("uniform", "normal", "skewed", "real")
                 .buildDistribution("uniform")
+                .buildSkewness(9)
                 .buildSides(0.01f, 0.02f, 0.04f, 0.08f, 0.16f)
-                .buildKs(1, 5, 25, 125, 625)
-                .buildSkewness(1)
+                .buildKs(1000,2000,3000,4000,5000) //1, 5, 25, 125, 625,
+//                .buildSkewness(1,3,5,7,9)
                 .buildTime(100)
                 .buildThreshold(10000)
 //                .buildInsertedNum(10000)
-                .buildInsertedNum(10000, 20000, 40000, 80000, 160000)
+//                .buildInsertedNum(10000, 20000, 40000, 80000, 160000)
+                .buildInsertedNum(0.1f, 0.2f, 0.3f, 0.4f, 0.5f)
+                .buildDeletedNum(0.1f, 0.2f, 0.3f, 0.4f, 0.5f)
                 .buildTypes(PartitionRecursive)
 //                .buildTypes("H", "Z")
                 .buildExpParams();
@@ -358,21 +403,23 @@ public class MLExperiment {
             ExpParam expParam = paramsRec.get(i);
             System.out.println(expParam);
             IRtree rtree = buildRtree(expParam);
-            pointQuery(rtree, expParam);
-            windowQuery(rtree, expParam);
-            accurateWindowQuery(rtree, expParam);
+//            pointQuery(rtree, expParam);
+//            windowQuery(rtree, expParam);
+//            accurateWindowQuery(rtree, expParam);
             knnQuery(rtree, expParam);
-            accurateKnnQuery(rtree, expParam);
-            insert(rtree, expParam);
+//            accurateKnnQuery(rtree, expParam);
+//            insert(rtree, expParam);
+//            rtree = buildRtree(expParam);
+//            delete(rtree, expParam);
         }
     }
 
     public static void main(String[] args) {
-        new MLExperiment().expTrees();
-//        new MLExperiment().expKmeans();
-        new MLExperiment().expRMI();
-//        new MLExperiment().expPartition();
         new MLExperiment().expPartitionRegression();
+//        new MLExperiment().expRMI();
+//        new MLExperiment().expTrees();
+//        new MLExperiment().expPartition();
+//        new MLExperiment().expKmeans();
     }
 
 }
